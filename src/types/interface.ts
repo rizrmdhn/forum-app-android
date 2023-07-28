@@ -50,6 +50,10 @@ export interface ILeaderboard {
   score: number;
 }
 
+export interface IAccessToken {
+  accessToken: string | undefined;
+}
+
 export interface ILoginResponse {
   status: string;
   message: string;

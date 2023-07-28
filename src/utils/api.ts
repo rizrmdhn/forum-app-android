@@ -1,10 +1,17 @@
-import axios, {AxiosResponse} from 'axios';
+import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
+  IComment,
+  ICreateCommentResponse,
+  ICreateThreadResponse,
   ICreateVoteResponse,
   IDetailThread,
+  IGetAllUsersResponse,
+  IGetLeaderboardResponse,
   IGetOwnProfileResponse,
   ILeaderboard,
+  ILoginResponse,
+  IRegisterUserResponse,
   IThread,
   IUser,
 } from '../types/interface';
@@ -22,7 +29,7 @@ const api = (() => {
     });
   }
 
-  async function putAccessToken(token: any) {
+  async function putAccessToken(token: string) {
     // localStorage.setItem('accessToken', token);
     await AsyncStorage.setItem('accessToken', token);
   }
@@ -40,83 +47,67 @@ const api = (() => {
     name: string;
     email: string;
     password: string;
-  }) {
-    await axios
-      .post(`${baseUrl}/register`, {
-        name,
-        email,
-        password,
-      })
-      .catch(error => {
-        if (error.response) {
-          const {message} = error.response.data;
+  }): Promise<IUser> {
+    const response = await axios.post(`${baseUrl}/register`, {
+      name,
+      email,
+      password,
+    });
 
-          throw new Error(message);
-        }
-      })
-      .then(response => {
-        const {data}: any = response;
+    const {status, message}: IRegisterUserResponse = response.data;
 
-        const {status, message} = data;
+    if (status !== 'success') {
+      throw new Error(message);
+    }
 
-        return {
-          status,
-          message,
-        };
-      });
+    const {
+      data: {user},
+    }: IRegisterUserResponse = response.data;
+
+    return user;
   }
 
   async function login({email, password}: {email: string; password: string}) {
-    await axios
-      .post(`${baseUrl}/login`, {
-        email,
-        password,
-      })
-      .catch(error => {
-        if (error.response) {
-          const {message} = error.response.data;
+    const response = await axios.post(`${baseUrl}/login`, {
+      email,
+      password,
+    });
 
-          throw new Error(message);
-        }
-      })
-      .then(response => {
-        const {data}: any = response;
+    const {status, message}: ILoginResponse = response.data;
 
-        const {token} = data.data;
+    if (status !== 'success') {
+      throw new Error(message);
+    }
 
-        return putAccessToken(token);
-      });
+    const {
+      data: {token},
+    }: ILoginResponse = response.data;
+
+    return putAccessToken(token);
   }
 
-  async function getOwnProfile(): Promise<IUser | undefined> {
-    let users: IUser | undefined;
-    await _fetchWithAuth(`${baseUrl}/users/me`, {
+  async function getOwnProfile(): Promise<IUser> {
+    const response = await _fetchWithAuth(`${baseUrl}/users/me`, {
       method: 'GET',
-    })
-      .catch(error => {
-        if (error.response) {
-          const {message} = error.response.data;
+    });
 
-          throw new Error(message);
-        }
-      })
-      .then(response => {
-        const {data}: any = response;
+    const {status, message}: IGetOwnProfileResponse = response.data;
 
-        const {
-          data: {user},
-        } = data;
+    if (status !== 'success') {
+      throw new Error(message);
+    }
 
-        users = user;
-      });
+    const {
+      data: {user},
+    }: IGetOwnProfileResponse = response.data;
 
-    return users;
+    return user;
   }
 
   async function getAllUsers(): Promise<IUser[]> {
     const response = await axios(`${baseUrl}/users`);
 
-    const {status, message} = response.data;
+    const {status, message}: IGetAllUsersResponse = response.data;
 
     if (status !== 'success') {
       throw new Error(message);
@@ -124,7 +115,7 @@ const api = (() => {
 
     const {
       data: {users},
-    } = response.data;
+    }: IGetAllUsersResponse = response.data;
 
     return users;
   }
@@ -169,34 +160,27 @@ const api = (() => {
     title: string;
     body: string;
     category?: string;
-  }): Promise<IThread | undefined> {
-    let createThread: IThread | undefined;
-    await _fetchWithAuth(`${baseUrl}/threads`, {
+  }): Promise<IThread> {
+    const response = await _fetchWithAuth(`${baseUrl}/threads`, {
       method: 'POST',
       data: {
         title,
         body,
         category,
       },
-    })
-      .catch(error => {
-        if (error.response) {
-          const {message} = error.response.data;
+    });
 
-          throw new Error(message);
-        }
-      })
-      .then(response => {
-        const {data}: any = response;
+    const {status, message}: ICreateThreadResponse = response.data;
 
-        const {
-          data: {thread},
-        } = data;
+    if (status !== 'success') {
+      throw new Error(message);
+    }
 
-        createThread = thread;
-      });
+    const {
+      data: {thread},
+    }: ICreateThreadResponse = response.data;
 
-    return createThread;
+    return thread;
   }
 
   async function createComment({
@@ -205,32 +189,28 @@ const api = (() => {
   }: {
     threadId: string;
     content: string;
-  }) {
-    let createComment;
-    await _fetchWithAuth(`${baseUrl}/threads/${threadId}/comments`, {
-      method: 'POST',
-      data: {
-        content,
+  }): Promise<IComment> {
+    const response = await _fetchWithAuth(
+      `${baseUrl}/threads/${threadId}/comments`,
+      {
+        method: 'POST',
+        data: {
+          content,
+        },
       },
-    })
-      .catch(error => {
-        if (error.response) {
-          const {message} = error.response.data;
+    );
 
-          throw new Error(message);
-        }
-      })
-      .then(response => {
-        const {data}: any = response;
+    const {status, message}: ICreateCommentResponse = response.data;
 
-        const {
-          data: {comment},
-        } = data;
+    if (status !== 'success') {
+      throw new Error(message);
+    }
 
-        createComment = comment;
-      });
+    const {
+      data: {comment},
+    }: ICreateCommentResponse = response.data;
 
-    return createComment;
+    return comment;
   }
 
   async function upVoteThread(threadId: string) {
@@ -241,7 +221,7 @@ const api = (() => {
       },
     );
 
-    const {status, message} = response.data;
+    const {status, message}: ICreateVoteResponse = response.data;
 
     if (status !== 'success') {
       throw new Error(message);
@@ -256,7 +236,7 @@ const api = (() => {
       },
     );
 
-    const {status, message} = response.data;
+    const {status, message}: ICreateVoteResponse = response.data;
 
     if (status !== 'success') {
       throw new Error(message);
@@ -271,7 +251,7 @@ const api = (() => {
       },
     );
 
-    const {status, message} = response.data;
+    const {status, message}: ICreateVoteResponse = response.data;
 
     if (status !== 'success') {
       throw new Error(message);
@@ -292,7 +272,7 @@ const api = (() => {
       },
     );
 
-    const {status, message} = response.data;
+    const {status, message}: ICreateVoteResponse = response.data;
 
     if (status !== 'success') {
       throw new Error(message);
@@ -313,7 +293,7 @@ const api = (() => {
       },
     );
 
-    const {status, message} = response.data;
+    const {status, message}: ICreateVoteResponse = response.data;
 
     if (status !== 'success') {
       throw new Error(message);
@@ -334,7 +314,7 @@ const api = (() => {
       },
     );
 
-    const {status, message} = response.data;
+    const {status, message}: ICreateVoteResponse = response.data;
 
     if (status !== 'success') {
       throw new Error(message);
@@ -344,7 +324,7 @@ const api = (() => {
   async function getLeaderboards(): Promise<ILeaderboard[]> {
     const response = await axios(`${baseUrl}/leaderboards`);
 
-    const {status, message} = response.data;
+    const {status, message}: IGetLeaderboardResponse = response.data;
 
     if (status !== 'success') {
       throw new Error(message);
@@ -352,7 +332,7 @@ const api = (() => {
 
     const {
       data: {leaderboards},
-    } = response.data;
+    }: IGetLeaderboardResponse = response.data;
 
     return leaderboards;
   }
