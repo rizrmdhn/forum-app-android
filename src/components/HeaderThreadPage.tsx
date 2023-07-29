@@ -1,13 +1,13 @@
-import {View} from 'react-native';
+import {View, Pressable} from 'react-native';
 import React from 'react';
 import tw from '../lib/tailwind';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Input, Pressable} from 'native-base';
+import {Input} from 'native-base';
 
 export default function HeaderThreadPage() {
   return (
     <View style={tw.style(`flex bg:light h-20 dark:bg-dark justify-between flex-row px-6 py-2`)}>
-      <Pressable style={tw.style('my-4')}>
+      <Pressable style={tw.style('my-4')} onPress={() => console.log('filter item')}>
         <MaterialIcons name="filter-list-alt" size={30} color="white" />
       </Pressable>
       <View
@@ -20,7 +20,7 @@ export default function HeaderThreadPage() {
           placeholderTextColor={'white'}
           style={tw.style('text-white text-sm')}
         />
-        <Pressable style={tw.style('my-2 mr-2')}>
+        <Pressable style={tw.style('my-2 mr-2')} onPress={() => console.log('item search')}>
           <MaterialIcons name="search" size={30} color="white" />
         </Pressable>
       </View>

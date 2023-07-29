@@ -1,6 +1,6 @@
 import React from 'react';
 import tw from '../lib/tailwind';
-import {Text, TouchableOpacity} from 'react-native';
+import {Text, Pressable} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 type BottomNavigationItemProps = {
@@ -15,9 +15,9 @@ export default function BottomNavigationItem({
   label,
 }: BottomNavigationItemProps) {
   return (
-    <TouchableOpacity style={tw.style(className)}>
+    <Pressable style={tw.style(className)}>
       <MaterialIcons name={iconName} size={30} color={`#fff`} />
       <Text style={tw.style('font-bold text-white')}>{label}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

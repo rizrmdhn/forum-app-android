@@ -14,7 +14,7 @@ const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   threadCardContainer: {
-    height: windowHeight - 185,
+    height: windowHeight - 180,
   },
 });
 
@@ -32,7 +32,10 @@ export default function ThreadPage() {
   return (
     <ThreadPageLayout>
       <ScrollView style={styles.threadCardContainer}>
-        <View style={tw.style('dark:bg-dark bg-light flex flex-col items-center overflow-scroll')}>
+        <View
+          style={tw.style('dark:bg-dark bg-light flex flex-col items-center overflow-scroll', {
+            height: windowHeight - 180,
+          })}>
           {data.map(thread => {
             return <ThreadCard key={thread.id} {...thread} />;
           })}
