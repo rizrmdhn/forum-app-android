@@ -11,7 +11,7 @@ import {Provider} from 'react-redux';
 import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import store from './states';
 import {NativeBaseProvider} from 'native-base';
-import DefaultPage from './pages/DefaultPage';
+import ThreadPage from './pages/ThreadPage';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -26,8 +26,7 @@ function App(): JSX.Element {
         <Provider store={store}>
           <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
           <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
-            <Header />
-            <DefaultPage />
+            <ThreadPage />
           </ScrollView>
         </Provider>
       </SafeAreaView>

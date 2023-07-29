@@ -6,7 +6,7 @@ export type UserState = IUser[];
 
 export type Action = IReceiveUserAction | AnyAction;
 
-export type asyncRegisterUser = {
+export type asyncRegisterUserAction = {
   name: string;
   email: string;
   password: string;

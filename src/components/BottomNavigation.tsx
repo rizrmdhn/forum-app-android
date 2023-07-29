@@ -7,7 +7,7 @@ export default function BottomNavigation() {
   return (
     <View
       style={tw.style(
-        `flex bg:light dark:bg-dark items-center justify-between flex-row px-6 py-2`,
+        `flex h-20 bg:light dark:bg-dark items-center justify-between flex-row px-6 py-2`,
       )}>
       <BottomNavigationItem
         className="flex h-12 w-24 flex-col items-center justify-center"

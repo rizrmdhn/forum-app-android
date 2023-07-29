@@ -3,7 +3,7 @@ import {IUser} from '../../types/interface';
 import api from '../../utils/api';
 import {setIsLoading, unsetIsLoading} from '../isLoading/action';
 import {IReceiveUserAction} from './types/interface';
-import {asyncRegisterUser} from './types/type';
+import {asyncRegisterUserAction} from './types/type';
 
 enum ActionType {
   RECEIVE_USER = 'RECEIVE_USER',
@@ -25,7 +25,7 @@ function asyncRegisterUser({
   textRegisterSuccess,
   textErrorRegister,
   routeToLogin,
-}: asyncRegisterUser) {
+}: asyncRegisterUserAction) {
   return async (dispatch: any) => {
     dispatch(setIsLoading());
     try {

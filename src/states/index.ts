@@ -12,11 +12,12 @@ import showCategoryReducer from './showCategory/reducer';
 import showMenuReducer from './showMenu/reducer';
 import isLoadingReducer from './isLoading/reducer';
 import isPreloadReducer from './isPreload/reducer';
+import themeReducer from './theme/reducer';
 
 const store = configureStore({
   reducer: {
     authUser: authUserReducer,
-    filterThreadByCategory: filterThreadByCategoryReducer,
+    category: filterThreadByCategoryReducer,
     filterThreadByTitle: filterThreadByTitleReducer,
     thread: threadReducer,
     detailThread: detailThreadReducer,
@@ -28,6 +29,7 @@ const store = configureStore({
     showMenu: showMenuReducer,
     isLoading: isLoadingReducer,
     isPreload: isPreloadReducer,
+    theme: themeReducer,
   },
 });
 
