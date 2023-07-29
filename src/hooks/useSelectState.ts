@@ -14,30 +14,22 @@ import {LocaleState} from '../states/locale/types/type';
 import {ThemeState} from '../states/theme/types/type';
 
 function useSelectState(state: string) {
-  const showMenu = useSelector<RootState, ShowMenuState>((state: RootState) => state.showMenu);
-  const showCategory = useSelector<RootState, ShowCategoryState>(
-    (state: RootState) => state.showCategory,
-  );
-  const authUser = useSelector<RootState, AuthUserState>((state: RootState) => state.authUser);
-  const thread = useSelector<RootState, IThread[]>((state: RootState) => state.thread);
-  const user = useSelector<RootState, IUser[]>((state: RootState) => state.user);
-  const category = useSelector<RootState, FilterThreadByCategoryState>(
-    (state: RootState) => state.category,
-  );
+  const showMenu = useSelector<RootState, ShowMenuState>(state => state.showMenu);
+  const showCategory = useSelector<RootState, ShowCategoryState>(state => state.showCategory);
+  const authUser = useSelector<RootState, AuthUserState>(state => state.authUser);
+  const thread = useSelector<RootState, IThread[]>(state => state.thread);
+  const user = useSelector<RootState, IUser[]>(state => state.user);
+  const category = useSelector<RootState, FilterThreadByCategoryState>(state => state.category);
   const threadTitle = useSelector<RootState, FilterThreadByTitleState>(
-    (state: RootState) => state.filterThreadByTitle,
+    state => state.filterThreadByTitle,
   );
-  const detailThread = useSelector<RootState, DetailThreadState>(
-    (state: RootState) => state.detailThread,
-  );
-  const leaderboard = useSelector<RootState, ILeaderboard[]>(
-    (state: RootState) => state.leaderboard,
-  );
-  const isLoading = useSelector<RootState, IsLoadingState>((state: RootState) => state.isLoading);
-  const isPreload = useSelector<RootState, IsPreloadState>((state: RootState) => state.isPreload);
-  const openModal = useSelector<RootState, OpenModalState>((state: RootState) => state.openModal);
-  const locale = useSelector<RootState, LocaleState>((state: RootState) => state.locale);
-  const theme = useSelector<RootState, ThemeState>((state: RootState) => state.theme);
+  const detailThread = useSelector<RootState, DetailThreadState>(state => state.detailThread);
+  const leaderboard = useSelector<RootState, ILeaderboard[]>(state => state.leaderboard);
+  const isLoading = useSelector<RootState, IsLoadingState>(state => state.isLoading);
+  const isPreload = useSelector<RootState, IsPreloadState>(state => state.isPreload);
+  const openModal = useSelector<RootState, OpenModalState>(state => state.openModal);
+  const locale = useSelector<RootState, LocaleState>(state => state.locale);
+  const theme = useSelector<RootState, ThemeState>(state => state.theme);
 
   switch (state) {
     case 'showMenu':

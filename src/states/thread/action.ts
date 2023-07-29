@@ -87,8 +87,10 @@ function asyncCreateThread({
       dispatch(createThread(thread));
 
       Alert.alert('Success', textThreadCreated || 'You have successfully created a new thread');
-    } catch (error: any) {
-      Alert.alert('Error', error.message || textErrorCreateThread);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', textErrorCreateThread || 'Error');
+      }
     }
     dispatch(setIsLoading());
   };
@@ -113,9 +115,10 @@ function asyncUpVoteThread({
       await api.upVoteThread(threadId);
 
       Alert.alert('Success', textUpVoteSuccess || 'You have successfully up voted this thread');
-    } catch (error: any) {
-      dispatch(downVoteThread(threadId, authUser.id));
-      Alert.alert('Error', error.message || textErrorUpVote);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', textErrorUpVote || 'Error');
+      }
     }
 
     dispatch(setIsLoading());
@@ -141,9 +144,10 @@ function asyncDownVoteThread({
       await api.downVoteThread(threadId);
 
       Alert.alert('Success', textDownVoteSuccess || 'You have successfully down voted this thread');
-    } catch (error: any) {
-      dispatch(upVoteThread(threadId, authUser.id));
-      Alert.alert('Error', error.message || textErrorDownVote);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', textErrorDownVote || 'Error');
+      }
     }
 
     dispatch(setIsLoading());
@@ -169,9 +173,10 @@ function asyncNeturalVoteThread({
       await api.neturalVoteThread(threadId);
 
       Alert.alert('Success', textRemoveVoteSuccess || 'You have successfully remove your vote');
-    } catch (error: any) {
-      dispatch(upVoteThread(threadId, authUser.id));
-      Alert.alert('Error', error.message || textErrorRemoveVote);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', textErrorRemoveVote || 'Error');
+      }
     }
 
     dispatch(setIsLoading());

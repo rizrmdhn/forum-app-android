@@ -24,8 +24,10 @@ function asyncGetLeaderboard({textErrorGetLeaderboard}: asyncGetLeaderboardActio
     try {
       const leaderboard: ILeaderboard[] = await api.getLeaderboards();
       dispatch(receiveLeaderboard(leaderboard));
-    } catch (error: any) {
-      Alert.alert('Error', textErrorGetLeaderboard || 'Error');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', textErrorGetLeaderboard || 'Error');
+      }
     }
     dispatch(unsetIsLoading());
   };

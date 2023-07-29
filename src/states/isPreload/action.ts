@@ -25,7 +25,7 @@ function asyncSetIsPreload({isPreload}: asyncSetIsPreloadAction) {
     try {
       const authUser: IUser = await api.getOwnProfile();
       dispatch(receiveAuthUser(authUser));
-    } catch (error: any) {
+    } catch (error) {
       dispatch(setIsPreload(null));
     } finally {
       dispatch(setIsPreload(isPreload));

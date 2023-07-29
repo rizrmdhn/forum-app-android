@@ -4,6 +4,7 @@ import api from '../../utils/api';
 import {setIsLoading, unsetIsLoading} from '../isLoading/action';
 import {IReceiveUserAction} from './types/interface';
 import {asyncRegisterUserAction} from './types/type';
+import {AppDispatch} from '..';
 
 enum ActionType {
   RECEIVE_USER = 'RECEIVE_USER',
@@ -26,15 +27,17 @@ function asyncRegisterUser({
   textErrorRegister,
   routeToLogin,
 }: asyncRegisterUserAction) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading());
     try {
       await api.register({name, email, password});
 
       Alert.alert('Success', textRegisterSuccess || 'Success');
       routeToLogin && routeToLogin();
-    } catch (error: any) {
-      Alert.alert('Error', textErrorRegister || 'Error');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', textErrorRegister || 'Error');
+      }
     }
     dispatch(unsetIsLoading());
   };

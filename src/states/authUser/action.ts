@@ -46,8 +46,10 @@ function asyncSetAuthUser({
       dispatch(receiveAuthUser(authUser));
       navigateTo && navigateTo();
       Alert.alert('Success', textLoginSuccess || 'Login success');
-    } catch (error: any) {
-      Alert.alert('Error', textLoginError || error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', textLoginError || error.message);
+      }
     }
 
     dispatch(setIsLoading());
@@ -62,8 +64,10 @@ function asyncUnsetAuthUser({textLogoutError, textLogoutSuccess}: asyncUnsetAuth
       api.putAccessToken('');
       dispatch(unsetAuthUser());
       Alert.alert('Success', textLogoutSuccess || 'Logout success');
-    } catch (error: any) {
-      Alert.alert('Error', textLogoutError || error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', textLogoutError || error.message);
+      }
     }
 
     dispatch(setIsLoading());

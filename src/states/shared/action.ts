@@ -15,8 +15,10 @@ function asyncPopulateUsersAndThreads() {
 
       dispatch(receiveUser(users));
       dispatch(receiveThread(threads));
-    } catch (error: any) {
-      Alert.alert('Error', 'Error');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', 'Error');
+      }
     }
     dispatch(unsetIsLoading());
   };
@@ -29,8 +31,10 @@ function asyncGetAllUsers() {
       const users: IUser[] = await api.getAllUsers();
 
       dispatch(receiveUser(users));
-    } catch (error: any) {
-      Alert.alert('Error', 'Error');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', 'Error');
+      }
     }
     dispatch(unsetIsLoading());
   };

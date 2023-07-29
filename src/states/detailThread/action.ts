@@ -139,8 +139,10 @@ function asyncGetThreadDetail({threadId, textErrorGetThreadDetail}: asyncGetThre
       const threadDetail: IDetailThread = await api.getThreadById(threadId);
 
       dispatch(receiveThreadsDetail(threadDetail));
-    } catch (error: any) {
-      Alert.alert('Error', error.message || textErrorGetThreadDetail);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', error.message || textErrorGetThreadDetail);
+      }
     }
     dispatch(unsetIsLoading());
   };
@@ -163,8 +165,10 @@ function asyncUpVoteThreadDetail({
       await api.upVoteThread(threadId);
       dispatch(upVoteThreadDetail(threadId, authUser.id));
       Alert.alert('Success', textUpVoteSuccess);
-    } catch (error: any) {
-      Alert.alert('Error', error.message || textErrorUpVote);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', error.message || textErrorUpVote);
+      }
     }
     dispatch(unsetIsLoading());
   };
@@ -187,8 +191,10 @@ function asyncDownVoteThreadDetail({
       await api.downVoteThread(threadId);
       dispatch(downVoteThreadDetail(threadId, authUser.id));
       Alert.alert('Success', textDownVoteSuccess);
-    } catch (error: any) {
-      Alert.alert('Error', error.message || textErrorDownVote);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', error.message || textErrorDownVote);
+      }
     }
     dispatch(unsetIsLoading());
   };
@@ -211,8 +217,10 @@ function asyncNeutralVoteThreadDetail({
       await api.neturalVoteThread(threadId);
       dispatch(neutralVoteThreadDetail(threadId, authUser.id));
       Alert.alert('Success', textRemoveVoteSuccess);
-    } catch (error: any) {
-      Alert.alert('Error', error.message || textErrorRemoveVote);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', error.message || textErrorRemoveVote);
+      }
     }
     dispatch(unsetIsLoading());
   };
@@ -230,8 +238,10 @@ function asyncCreateCommentThreadDetail({
       const comment: IComment = await api.createComment({threadId, content});
       dispatch(createCommentThreadDetail(threadId, comment));
       Alert.alert('Success', textCommentCreated);
-    } catch (error: any) {
-      Alert.alert('Error', error.message || textErrorCreateComment);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', error.message || textErrorCreateComment);
+      }
     }
     dispatch(unsetIsLoading());
   };
@@ -255,8 +265,10 @@ function asyncUpVoteCommentThreadDetail({
       await api.upVoteComment({threadId, commentId});
       dispatch(upVoteCommentThreadDetail(threadId, commentId, authUser.id));
       Alert.alert('Success', textUpVoteSuccess);
-    } catch (error: any) {
-      Alert.alert('Error', error.message || textErrorUpVote);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', error.message || textErrorUpVote);
+      }
     }
     dispatch(unsetIsLoading());
   };
@@ -280,8 +292,10 @@ function asyncDownVoteCommentThreadDetail({
       await api.downVoteComment({threadId, commentId});
       dispatch(downVoteCommentThreadDetail(threadId, commentId, authUser.id));
       Alert.alert('Success', textDownVoteSuccess);
-    } catch (error: any) {
-      Alert.alert('Error', error.message || textErrorDownVote);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', error.message || textErrorDownVote);
+      }
     }
     dispatch(unsetIsLoading());
   };
@@ -297,16 +311,18 @@ function asyncNeutralVoteCommentThreadDetail({
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     const {authUser} = getState();
     if (!authUser) {
-      Alert.alert('Error', 'Please login to vote');
+      Alert.alert('Error', textLoginToVote || 'Login to vote');
       return;
     }
     dispatch(setIsLoading());
     try {
       await api.neutralVoteComment({threadId, commentId});
       dispatch(neutralVoteCommentThreadDetail(threadId, commentId, authUser.id));
-      Alert.alert('Success', 'Remove vote success');
-    } catch (error: any) {
-      Alert.alert('Error', error.message || 'Remove vote failed');
+      Alert.alert('Success', textRemoveVoteSuccess || 'Remove vote success');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return Alert.alert('Error', error.message || textErrorRemoveVote);
+      }
     }
     dispatch(unsetIsLoading());
   };
