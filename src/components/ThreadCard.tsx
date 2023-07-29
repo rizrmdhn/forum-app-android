@@ -35,14 +35,18 @@ export default function ThreadCard({
           <Text style={tw.style('text-black dark:text-white')}>{body}</Text>
         </Box>
         <Box style={tw.style('w-auto flex flex-row')}>
-          <Pressable style={tw.style('w-20 mt-2 flex flex-row')}>
+          <Pressable
+            style={tw.style('w-20 mt-2 flex flex-row')}
+            onPress={() => console.log('upvoted')}>
             <MaterialIcons name="thumb-up-off-alt" size={25} color="black" />
             <Text style={tw.style('ml-2 dark:text-white text-black')}>{upVotesBy.length}</Text>
           </Pressable>
-          <View style={tw.style('w-20 mt-2 flex flex-row')}>
+          <Pressable
+            style={tw.style('w-20 mt-2 flex flex-row')}
+            onPress={() => console.log('downvoted')}>
             <MaterialIcons name="thumb-down-off-alt" size={25} color="black" />
             <Text style={tw.style('ml-2 dark:text-white text-black')}>{downVotesBy.length}</Text>
-          </View>
+          </Pressable>
           <View style={tw.style('w-20 mt-2 flex flex-row')}>
             <MaterialIcons name="chat-bubble-outline" size={25} color="black" />
           </View>
