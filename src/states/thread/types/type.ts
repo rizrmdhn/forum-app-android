@@ -39,6 +39,6 @@ export type asyncDownVoteThreadAction = {
 export type asyncNeturalVoteThreadAction = {
   threadId: string;
   textLoginToVote?: string;
-  textNeturalVoteSuccess?: string;
-  textErrorNeturalVote?: string;
+  textRemoveVoteSuccess?: string;
+  textErrorRemoveVote?: string;
 };

@@ -73,27 +73,38 @@ function neturealVoteThread(threadId: string, userId: string): INeturalVoteThrea
   };
 }
 
-function asyncCreateThread({title, body, category}: asyncCreateThreadAction) {
+function asyncCreateThread({
+  title,
+  body,
+  category,
+  textErrorCreateThread,
+  textThreadCreated,
+}: asyncCreateThreadAction) {
   return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading());
     try {
       const thread: IThread = await api.createThread({title, body, category});
       dispatch(createThread(thread));
 
-      Alert.alert('Success', 'Create thread success');
+      Alert.alert('Success', textThreadCreated || 'You have successfully created a new thread');
     } catch (error: any) {
-      Alert.alert('Error', error.message);
+      Alert.alert('Error', error.message || textErrorCreateThread);
     }
     dispatch(setIsLoading());
   };
 }
 
-function asyncUpVoteThread({threadId}: asyncUpVoteThreadAction) {
+function asyncUpVoteThread({
+  threadId,
+  textErrorUpVote,
+  textLoginToVote,
+  textUpVoteSuccess,
+}: asyncUpVoteThreadAction) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch(setIsLoading());
     const {authUser} = getState();
     if (!authUser) {
-      Alert.alert('Error', 'Please login to vote');
+      Alert.alert('Error', textLoginToVote || 'Please login to vote');
       return;
     }
 
@@ -101,22 +112,27 @@ function asyncUpVoteThread({threadId}: asyncUpVoteThreadAction) {
     try {
       await api.upVoteThread(threadId);
 
-      Alert.alert('Success', 'Up vote success');
+      Alert.alert('Success', textUpVoteSuccess || 'You have successfully up voted this thread');
     } catch (error: any) {
       dispatch(downVoteThread(threadId, authUser.id));
-      Alert.alert('Error', error.message);
+      Alert.alert('Error', error.message || textErrorUpVote);
     }
 
     dispatch(setIsLoading());
   };
 }
 
-function asyncDownVoteThread({threadId}: asyncDownVoteThreadAction) {
+function asyncDownVoteThread({
+  threadId,
+  textDownVoteSuccess,
+  textErrorDownVote,
+  textLoginToVote,
+}: asyncDownVoteThreadAction) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch(setIsLoading());
     const {authUser} = getState();
     if (!authUser) {
-      Alert.alert('Error', 'Please login to vote');
+      Alert.alert('Error', textLoginToVote || 'Please login to vote');
       return;
     }
 
@@ -124,22 +140,27 @@ function asyncDownVoteThread({threadId}: asyncDownVoteThreadAction) {
     try {
       await api.downVoteThread(threadId);
 
-      Alert.alert('Success', 'You have successfully down voted this thread');
+      Alert.alert('Success', textDownVoteSuccess || 'You have successfully down voted this thread');
     } catch (error: any) {
       dispatch(upVoteThread(threadId, authUser.id));
-      Alert.alert('Error', error.message);
+      Alert.alert('Error', error.message || textErrorDownVote);
     }
 
     dispatch(setIsLoading());
   };
 }
 
-function asyncNeturalVoteThread({threadId}: asyncNeturalVoteThreadAction) {
+function asyncNeturalVoteThread({
+  threadId,
+  textErrorRemoveVote,
+  textLoginToVote,
+  textRemoveVoteSuccess,
+}: asyncNeturalVoteThreadAction) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch(setIsLoading());
     const {authUser} = getState();
     if (!authUser) {
-      Alert.alert('Error', 'Please login to vote');
+      Alert.alert('Error', textLoginToVote || 'Please login to vote');
       return;
     }
 
@@ -147,10 +168,10 @@ function asyncNeturalVoteThread({threadId}: asyncNeturalVoteThreadAction) {
     try {
       await api.neturalVoteThread(threadId);
 
-      Alert.alert('Success', 'You have successfully netural voted this thread');
+      Alert.alert('Success', textRemoveVoteSuccess || 'You have successfully remove your vote');
     } catch (error: any) {
       dispatch(upVoteThread(threadId, authUser.id));
-      Alert.alert('Error', error.message);
+      Alert.alert('Error', error.message || textErrorRemoveVote);
     }
 
     dispatch(setIsLoading());
