@@ -70,4 +70,4 @@ function asyncUnsetAuthUser({textLogoutError, textLogoutSuccess}: asyncUnsetAuth
   };
 }
 
-export {ActionType, asyncSetAuthUser, asyncUnsetAuthUser};
+export {ActionType, receiveAuthUser, asyncSetAuthUser, asyncUnsetAuthUser};
