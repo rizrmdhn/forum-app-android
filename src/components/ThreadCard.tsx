@@ -23,7 +23,7 @@ export default function ThreadCard({
       )}>
       <VStack>
         <Box
-          style={tw.style(' self-start p-1 rounded dark:bg-categoryDark bg-light items-baseline')}>
+          style={tw.style('self-start p-1 rounded dark:bg-categoryDark bg-light items-baseline')}>
           <Text>#{category}</Text>
         </Box>
         <Pressable onPress={() => console.log(id)}>

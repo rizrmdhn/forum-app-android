@@ -63,4 +63,6 @@ function useSelectState(state: string) {
   }
 }
 
+export type SelectStateHooks = ReturnType<typeof useSelectState>;
+
 export default useSelectState;

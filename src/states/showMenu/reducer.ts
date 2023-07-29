@@ -10,6 +10,8 @@ export default function showMenuReducer(
   switch (action.type) {
     case ActionType.SET_SHOW_MENU:
       return action.payload.showMenu;
+    case ActionType.UNSET_SHOW_MENU:
+      return action.payload.showMenu;
     default:
       return state;
   }

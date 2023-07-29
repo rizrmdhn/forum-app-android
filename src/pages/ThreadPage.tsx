@@ -9,6 +9,8 @@ import ThreadCard from '../components/ThreadCard';
 import {ScrollView} from 'native-base';
 import tw from '../lib/tailwind';
 import ThreadPageLayout from '../layout/ThreadPageLayout';
+import {asyncPopulateUsersAndThreads} from '../states/shared/action';
+import {AppDispatch} from '../states';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -19,15 +21,27 @@ const styles = StyleSheet.create({
 });
 
 export default function ThreadPage() {
-  const dispatch = useDispatch();
+  const thread = useSelectState('thread') as IThread[];
+  const threadTitle = useSelectState('threadTitle');
 
-  const [data, setData] = useState<IThread[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    api.getAllThreads().then(res => {
-      setData(res);
-    });
+    dispatch(asyncPopulateUsersAndThreads());
   }, [dispatch]);
+
+  const filterThreadByTitle = (thread: IThread[]) => {
+    return thread.filter(threads => {
+      if (threadTitle === null) {
+        return threads;
+      } else if (threadTitle === undefined) {
+        return threads;
+      } else if (typeof threadTitle === 'string') {
+        return threads.title.toLowerCase().includes(threadTitle.toLowerCase());
+      }
+      return false;
+    });
+  };
 
   return (
     <ThreadPageLayout>
@@ -36,8 +50,8 @@ export default function ThreadPage() {
           style={tw.style('dark:bg-dark bg-light flex flex-col items-center overflow-scroll', {
             height: windowHeight - 180,
           })}>
-          {data.map(thread => {
-            return <ThreadCard key={thread.id} {...thread} />;
+          {filterThreadByTitle(thread).map(threads => {
+            return <ThreadCard key={threads.id} {...threads} />;
           })}
         </View>
       </ScrollView>

@@ -7,15 +7,17 @@ type BottomNavigationItemProps = {
   className?: string;
   iconName: string;
   label: string;
+  onPressAction?: () => void;
 };
 
 export default function BottomNavigationItem({
   className,
   iconName,
   label,
+  onPressAction,
 }: BottomNavigationItemProps) {
   return (
-    <Pressable style={tw.style(className)}>
+    <Pressable style={tw.style(className)} onPress={onPressAction}>
       <MaterialIcons name={iconName} size={30} color={`#fff`} />
       <Text style={tw.style('font-bold text-white')}>{label}</Text>
     </Pressable>

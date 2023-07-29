@@ -3,11 +3,35 @@ import React from 'react';
 import tw from '../lib/tailwind';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Input} from 'native-base';
+import useSelectState from '../hooks/useSelectState';
+import {setShowCategory} from '../states/showCategory/action';
+import {useDispatch} from 'react-redux';
+import {setFilterThreadByTitle} from '../states/filterThreadByTitle/action';
 
 export default function HeaderThreadPage() {
+  const threadTitle = useSelectState('threadTitle');
+  const showCategory = useSelectState('showCategory');
+
+  const dispatch = useDispatch();
+
+  const openCategory = () => {
+    if (showCategory) {
+      dispatch(setShowCategory(false));
+    } else {
+      dispatch(setShowCategory(true));
+    }
+  };
+
+  const onSearchByTitle = ({text}: any) => {
+    dispatch(setFilterThreadByTitle(text));
+  };
+
   return (
-    <View style={tw.style(`flex bg:light h-20 dark:bg-dark justify-between flex-row px-6 py-2`)}>
-      <Pressable style={tw.style('my-4')} onPress={() => console.log('filter item')}>
+    <View
+      style={tw.style(
+        `flex bg-defaultLightHeaders h-20 dark:bg-dark justify-between flex-row px-6 py-2`,
+      )}>
+      <Pressable style={tw.style('my-4')} onPress={openCategory}>
         <MaterialIcons name="filter-list-alt" size={30} color="white" />
       </Pressable>
       <View
@@ -19,6 +43,7 @@ export default function HeaderThreadPage() {
           rounded={'full'}
           placeholderTextColor={'white'}
           style={tw.style('text-white text-sm')}
+          onChangeText={text => onSearchByTitle({text})}
         />
         <Pressable style={tw.style('my-2 mr-2')} onPress={() => console.log('item search')}>
           <MaterialIcons name="search" size={30} color="white" />
