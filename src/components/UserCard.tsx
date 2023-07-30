@@ -1,5 +1,5 @@
-import {Text, View} from 'react-native';
-import {Avatar} from 'react-native-paper';
+import {Text, View, Image} from 'react-native';
+import {} from 'react-native-paper';
 import React from 'react';
 import tw from '../lib/tailwind';
 import {SvgUri} from 'react-native-svg';
@@ -20,12 +20,12 @@ export default function UserCard({
       <View style={tw.style('flex flex-row items-center my-2')}>
         <>
           {isSvg ? (
-            <View style={tw.style('rounded-2xl')}>
+            <View style={tw.style('overflow-hidden rounded-2xl')}>
               <SvgUri width={30} height={30} uri={avatar} />
             </View>
           ) : (
-            <Avatar.Image
-              size={30}
+            <Image
+              style={tw.style('w-8 h-8 rounded-2xl')}
               source={{
                 uri: avatar,
               }}
