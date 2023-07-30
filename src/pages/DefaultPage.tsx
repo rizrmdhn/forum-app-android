@@ -4,6 +4,7 @@ import LeaderboardPage from './LeaderboardPage';
 import ThreadPage from './ThreadPage';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MenuPage from './MenuPage';
 
 export default function DefaultPage() {
   const Tab = createMaterialBottomTabNavigator();
@@ -27,6 +28,14 @@ export default function DefaultPage() {
         options={{
           tabBarLabel: 'Forum',
           tabBarIcon: ({color}) => <MaterialIcons name="forum" color={color} size={26} />,
+        }}
+      />
+      <Tab.Screen
+        name="Menu"
+        component={MenuPage}
+        options={{
+          tabBarLabel: 'Menu',
+          tabBarIcon: ({color}) => <MaterialIcons name="menu" color={color} size={26} />,
         }}
       />
     </Tab.Navigator>
