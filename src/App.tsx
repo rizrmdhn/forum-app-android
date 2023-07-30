@@ -15,6 +15,8 @@ import {NativeBaseProvider} from 'native-base';
 import LeaderboardPage from './pages/LeaderboardPage';
 import DefaultPage from './pages/DefaultPage';
 import DetailThreadPage from './pages/DetailThreadPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 const Stack = createStackNavigator();
 
@@ -34,6 +36,12 @@ function App(): JSX.Element {
               <Stack.Screen
                 name="DetailThread"
                 component={DetailThreadPage}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen name="Login" component={LoginPage} options={{headerShown: false}} />
+              <Stack.Screen
+                name="Register"
+                component={RegisterPage}
                 options={{headerShown: false}}
               />
             </Stack.Navigator>
