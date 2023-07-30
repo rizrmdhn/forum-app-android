@@ -1,5 +1,6 @@
 import {AppDispatch} from '..';
 import {IChangeThemeAction} from './types/interface';
+import {Appearance} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 enum ActionType {
@@ -15,10 +16,12 @@ function changeTheme(theme: string): IChangeThemeAction {
   };
 }
 
-function asyncSetTheme(theme: string) {
+function asyncSetTheme(theme: string): any {
   return async (dispatch: AppDispatch) => {
     try {
+      const isDark = Appearance.getColorScheme() === 'dark';
       await AsyncStorage.setItem('theme', theme);
+      Appearance.setColorScheme(isDark ? 'light' : 'dark');
       dispatch(changeTheme(theme));
     } catch (e) {
       dispatch(changeTheme('light'));
@@ -26,12 +29,14 @@ function asyncSetTheme(theme: string) {
   };
 }
 
-function asyncGetTheme() {
+function asyncGetTheme(): any {
   return async (dispatch: AppDispatch) => {
     try {
       const theme = await AsyncStorage.getItem('theme');
+      const isDark = Appearance.getColorScheme() === 'dark';
       if (theme) {
-        dispatch(changeTheme(theme));
+        dispatch(changeTheme(isDark ? 'dark' : 'light'));
+        Appearance.setColorScheme(isDark ? 'light' : 'dark');
       }
     } catch (e) {
       dispatch(changeTheme('light'));
