@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
 
 export default function ThreadPage() {
   const thread = useSelectState('thread') as IThread[];
-  const threadTitle = useSelectState('threadTitle');
+  const threadTitle = useSelectState('threadTitle') as string;
+  const category = useSelectState('category') as string;
   const showMenu = useSelectState('showMenu');
   const showCategory = useSelectState('showCategory');
 
@@ -34,25 +35,16 @@ export default function ThreadPage() {
     dispatch(asyncPopulateUsersAndThreads());
   }, [dispatch]);
 
-  const filterThreadByTitle = (thread: IThread[]) => {
-    return thread.filter(threads => {
-      if (threadTitle === null) {
-        return threads;
-      } else if (threadTitle === undefined) {
-        return threads;
-      } else if (typeof threadTitle === 'string') {
-        return threads.title.toLowerCase().includes(threadTitle.toLowerCase());
-      }
-      return false;
-    });
-  };
+  const filteredThread = thread
+    .filter(thread => thread.title.toLowerCase().includes(threadTitle.toLowerCase()))
+    .filter(thread => thread.category.toLowerCase().includes(category.toLowerCase()));
 
   return (
     <View>
       <HeaderThreadPage />
       <ScrollView style={styles.threadCardContainer}>
         <View style={tw.style('dark:bg-dark bg-light flex flex-col items-center overflow-scroll')}>
-          {filterThreadByTitle(thread).map(threads => {
+          {filteredThread.map(threads => {
             return <ThreadCard key={threads.id} {...threads} />;
           })}
         </View>

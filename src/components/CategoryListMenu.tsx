@@ -1,9 +1,27 @@
-import {Text, View} from 'react-native';
+import {Text, View, Pressable} from 'react-native';
 import React from 'react';
 import tw from '../lib/tailwind';
 import * as Animatable from 'react-native-animatable';
+import {IThread} from '../types/interface';
+import useSelectState from '../hooks/useSelectState';
+import {AppDispatch} from '../states';
+import {useDispatch} from 'react-redux';
+import {setFilterThreadByCategory} from '../states/filterThreadByCategory/action';
 
 export default function CategoryListMenu() {
+  const thread = useSelectState('thread') as IThread[];
+  const category = useSelectState('category');
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const filterThreadByTitle = (text: string) => {
+    if (category === text) {
+      dispatch(setFilterThreadByCategory(''));
+    } else {
+      dispatch(setFilterThreadByCategory(text));
+    }
+  };
+
   return (
     <Animatable.View
       animation={'fadeInLeftBig'}
@@ -12,21 +30,16 @@ export default function CategoryListMenu() {
         <Text style={tw.style('text-white dark:text-white')}>Kategory List</Text>
       </View>
       <View style={tw.style('flex flex-row flex-wrap p-2')}>
-        <View style={tw.style('self-start p-1 ml-3 rounded my-2 bg-light items-baseline')}>
-          <Text style={tw.style('text-black dark:text-white')}>#react</Text>
-        </View>
-        <View style={tw.style('self-start p-1 ml-3 rounded my-2 bg-light items-baseline')}>
-          <Text style={tw.style('text-black dark:text-white')}>#react</Text>
-        </View>
-        <View style={tw.style('self-start p-1 ml-3 rounded my-2 bg-light items-baseline')}>
-          <Text style={tw.style('text-black dark:text-white')}>#react</Text>
-        </View>
-        <View style={tw.style('self-start p-1 ml-3 rounded my-2 bg-light items-baseline')}>
-          <Text style={tw.style('text-black dark:text-white')}>#react</Text>
-        </View>
-        <View style={tw.style('self-start p-1 ml-3 rounded my-2 bg-light items-baseline')}>
-          <Text style={tw.style('text-black dark:text-white')}>#react</Text>
-        </View>
+        {thread.map(threads => {
+          return (
+            <Pressable
+              key={threads.category}
+              onPress={() => filterThreadByTitle(threads.category)}
+              style={tw.style('self-start p-1 ml-3 rounded my-2 bg-light items-baseline')}>
+              <Text style={tw.style('text-black dark:text-white')}>#{threads.category}</Text>
+            </Pressable>
+          );
+        })}
       </View>
     </Animatable.View>
   );
