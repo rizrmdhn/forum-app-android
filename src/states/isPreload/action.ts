@@ -19,7 +19,7 @@ function setIsPreload(isPreload: boolean | null): ISetIsPreloadAction {
   };
 }
 
-function asyncSetIsPreload({isPreload}: asyncSetIsPreloadAction) {
+function asyncSetIsPreload() {
   return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading());
     try {
@@ -28,7 +28,7 @@ function asyncSetIsPreload({isPreload}: asyncSetIsPreloadAction) {
     } catch (error) {
       dispatch(setIsPreload(null));
     } finally {
-      dispatch(setIsPreload(isPreload));
+      dispatch(setIsPreload(false));
     }
     dispatch(unsetIsLoading());
   };

@@ -1,13 +1,23 @@
 import {StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import LeaderboardPage from './LeaderboardPage';
 import ThreadPage from './ThreadPage';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MenuPage from './MenuPage';
+import {AppDispatch} from '../states';
+import {useDispatch} from 'react-redux';
+import {asyncSetIsPreload} from '../states/isPreload/action';
+
+const Tab = createMaterialBottomTabNavigator();
 
 export default function DefaultPage() {
-  const Tab = createMaterialBottomTabNavigator();
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(asyncSetIsPreload());
+  }, [dispatch]);
+
   return (
     <Tab.Navigator
       initialRouteName="Thread"

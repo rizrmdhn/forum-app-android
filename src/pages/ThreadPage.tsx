@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 });
 
 export default function ThreadPage() {
+  const authUser = useSelectState('authUser');
   const thread = useSelectState('thread') as IThread[];
   const threadTitle = useSelectState('threadTitle') as string;
   const category = useSelectState('category') as string;
@@ -51,7 +52,7 @@ export default function ThreadPage() {
       </ScrollView>
       {showCategory && <CategoryListMenu />}
       {showMenu && <MenuItem />}
-      <AddNewThreadButton />
+      {authUser && <AddNewThreadButton />}
       <InputModal />
     </View>
   );
