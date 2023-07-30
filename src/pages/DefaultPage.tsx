@@ -8,10 +8,14 @@ import MenuPage from './MenuPage';
 import {AppDispatch} from '../states';
 import {useDispatch} from 'react-redux';
 import {asyncSetIsPreload} from '../states/isPreload/action';
+import useSelectState from '../hooks/useSelectState';
+import LoginPage from './LoginPage';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export default function DefaultPage() {
+  const authUser = useSelectState('authUser');
+
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -40,14 +44,25 @@ export default function DefaultPage() {
           tabBarIcon: ({color}) => <MaterialIcons name="forum" color={color} size={26} />,
         }}
       />
-      <Tab.Screen
-        name="Menu"
-        component={MenuPage}
-        options={{
-          tabBarLabel: 'Menu',
-          tabBarIcon: ({color}) => <MaterialIcons name="menu" color={color} size={26} />,
-        }}
-      />
+      {authUser !== null ? (
+        <Tab.Screen
+          name="Menu"
+          component={MenuPage}
+          options={{
+            tabBarLabel: 'Menu',
+            tabBarIcon: ({color}) => <MaterialIcons name="menu" color={color} size={26} />,
+          }}
+        />
+      ) : (
+        <Tab.Screen
+          name="Login"
+          component={LoginPage}
+          options={{
+            tabBarLabel: 'Login',
+            tabBarIcon: ({color}) => <MaterialIcons name="login" color={color} size={26} />,
+          }}
+        />
+      )}
     </Tab.Navigator>
   );
 }
