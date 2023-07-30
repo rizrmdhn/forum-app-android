@@ -9,7 +9,6 @@ import {useDispatch} from 'react-redux';
 import {setFilterThreadByTitle} from '../states/filterThreadByTitle/action';
 
 export default function HeaderThreadPage() {
-  const threadTitle = useSelectState('threadTitle');
   const showCategory = useSelectState('showCategory');
 
   const dispatch = useDispatch();

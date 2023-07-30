@@ -13,15 +13,15 @@ export default function MenuItem() {
       )}>
       <Pressable style={tw.style('flex flex-row my-3 py-1 px-4')}>
         <MaterialIcons name="bedtime" size={30} color="white" />
-        <Text style={tw.style('my-1 mx-2 font-bold')}>Dark</Text>
+        <Text style={tw.style('my-1 mx-2 font-bold text-white')}>Dark</Text>
       </Pressable>
       <Pressable style={tw.style('flex flex-row my-3 py-1 px-4')}>
         <MaterialIcons name="g-translate" size={30} color="white" />
-        <Text style={tw.style('my-1 mx-2 font-bold')}>English</Text>
+        <Text style={tw.style('my-1 mx-2 font-bold text-white')}>English</Text>
       </Pressable>
       <Pressable style={tw.style('flex flex-row my-3 py-1 px-4')}>
         <MaterialIcons name="login" size={30} color="white" />
-        <Text style={tw.style('my-1 mx-2 font-bold')}>Login</Text>
+        <Text style={tw.style('my-1 mx-2 font-bold text-white')}>Login</Text>
       </Pressable>
     </Animatable.View>
   );

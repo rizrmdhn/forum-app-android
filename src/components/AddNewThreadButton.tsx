@@ -16,7 +16,7 @@ export default function AddNewThreadButton() {
     <Pressable
       onPress={openModal}
       style={tw.style(
-        'dark:bg-light bg-dark bottom-24 right-5 w-10 h-10 flex flex-auto items-center justify-center rounded-full absolute',
+        'dark:bg-light bg-dark bottom-5 right-5 w-10 h-10 flex flex-auto items-center justify-center rounded-full absolute',
       )}>
       <MaterialIcons name="add" size={40} style={tw.style('text-white dark:text-black')} />
     </Pressable>

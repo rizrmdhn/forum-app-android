@@ -4,7 +4,7 @@ import {OpenModalState} from '../states/openModal/types/types';
 import {ShowMenuState} from '../states/showMenu/types/type';
 import {ShowCategoryState} from '../states/showCategory/types/type';
 import {AuthUserState} from '../states/authUser/types/type';
-import {ILeaderboard, IThread, IUser} from '../types/interface';
+import {ILeaderboard, INewLeaderboard, IThread, IUser} from '../types/interface';
 import {FilterThreadByCategoryState} from '../states/filterThreadByCategory/types/type';
 import {FilterThreadByTitleState} from '../states/filterThreadByTitle/types/type';
 import {DetailThreadState} from '../states/detailThread/types/type';
@@ -25,6 +25,7 @@ function useSelectState(state: string) {
   );
   const detailThread = useSelector<RootState, DetailThreadState>(state => state.detailThread);
   const leaderboard = useSelector<RootState, ILeaderboard[]>(state => state.leaderboard);
+  const newLeaderboard = useSelector<RootState, INewLeaderboard[]>(state => state.newLeaderboard);
   const isLoading = useSelector<RootState, IsLoadingState>(state => state.isLoading);
   const isPreload = useSelector<RootState, IsPreloadState>(state => state.isPreload);
   const openModal = useSelector<RootState, OpenModalState>(state => state.openModal);
@@ -48,6 +49,8 @@ function useSelectState(state: string) {
       return threadTitle;
     case 'detailThread':
       return detailThread;
+    case 'newLeaderboard':
+      return newLeaderboard;
     case 'leaderboard':
       return leaderboard;
     case 'isLoading':

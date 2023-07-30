@@ -48,6 +48,11 @@ export interface IVote {
 export interface ILeaderboard {
   user: IUser;
   score: number;
+  isSvg?: boolean;
+}
+
+export interface INewLeaderboard extends ILeaderboard {
+  isSvg: boolean;
 }
 
 export interface IAccessToken {

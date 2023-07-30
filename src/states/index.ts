@@ -5,6 +5,7 @@ import filterThreadByTitleReducer from './filterThreadByTitle/reducer';
 import threadReducer from './thread/reducer';
 import detailThreadReducer from './detailThread/reducer';
 import leaderboardReducer from './leaderboards/reducer';
+import newLeaderboardsReducer from './newLeaderboards/reducer';
 import userReducer from './user/reducer';
 import localeReducer from './locale/reducer';
 import openModalReducer from './openModal/reducer';
@@ -22,6 +23,7 @@ const store = configureStore({
     thread: threadReducer,
     detailThread: detailThreadReducer,
     leaderboard: leaderboardReducer,
+    newLeaderboard: newLeaderboardsReducer,
     user: userReducer,
     locale: localeReducer,
     openModal: openModalReducer,

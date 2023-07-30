@@ -9,7 +9,7 @@ export default function leaderboardReducer(
 ): LeaderboardState {
   switch (action.type) {
     case ActionType.RECEIVE_LEADERBOARD:
-      return action.payload.leaderboards;
+      return action.payload.leaderboard;
     default:
       return state;
   }

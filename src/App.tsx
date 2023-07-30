@@ -6,30 +6,40 @@
  */
 
 import React from 'react';
-import {SafeAreaView, ScrollView, StatusBar, useColorScheme, Text} from 'react-native';
 import {Provider} from 'react-redux';
-import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {createStackNavigator} from '@react-navigation/stack';
 import store from './states';
+import {NavigationContainer} from '@react-navigation/native';
 import {NativeBaseProvider} from 'native-base';
-import ThreadPage from './pages/ThreadPage';
+import LeaderboardPage from './pages/LeaderboardPage';
+import DefaultPage from './pages/DefaultPage';
+import DetailThreadPage from './pages/DetailThreadPage';
+
+const Stack = createStackNavigator();
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
     <NativeBaseProvider>
-      <SafeAreaView style={backgroundStyle}>
+      <SafeAreaProvider>
         <Provider store={store}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
-            <ThreadPage />
-          </ScrollView>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Default">
+              <Stack.Screen name="Default" component={DefaultPage} options={{headerShown: false}} />
+              <Stack.Screen
+                name="Leaderboard"
+                component={LeaderboardPage}
+                options={{headerShown: true}}
+              />
+              <Stack.Screen
+                name="DetailThread"
+                component={DetailThreadPage}
+                options={{headerShown: false}}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
         </Provider>
-      </SafeAreaView>
+      </SafeAreaProvider>
     </NativeBaseProvider>
   );
 }

@@ -1,16 +1,18 @@
 import {StyleSheet, View, Dimensions} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {IThread} from '../types/interface';
-import api from '../utils/api';
 import AddNewThreadButton from '../components/AddNewThreadButton';
 import useSelectState from '../hooks/useSelectState';
 import ThreadCard from '../components/ThreadCard';
 import {ScrollView} from 'native-base';
 import tw from '../lib/tailwind';
-import ThreadPageLayout from '../layout/ThreadPageLayout';
 import {asyncPopulateUsersAndThreads} from '../states/shared/action';
 import {AppDispatch} from '../states';
+import HeaderThreadPage from '../components/HeaderThreadPage';
+import CategoryListMenu from '../components/CategoryListMenu';
+import MenuItem from '../components/MenuItem';
+import InputModal from '../components/InputModal';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -23,6 +25,8 @@ const styles = StyleSheet.create({
 export default function ThreadPage() {
   const thread = useSelectState('thread') as IThread[];
   const threadTitle = useSelectState('threadTitle');
+  const showMenu = useSelectState('showMenu');
+  const showCategory = useSelectState('showCategory');
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -44,18 +48,19 @@ export default function ThreadPage() {
   };
 
   return (
-    <ThreadPageLayout>
+    <View>
+      <HeaderThreadPage />
       <ScrollView style={styles.threadCardContainer}>
-        <View
-          style={tw.style('dark:bg-dark bg-light flex flex-col items-center overflow-scroll', {
-            height: windowHeight - 180,
-          })}>
+        <View style={tw.style('dark:bg-dark bg-light flex flex-col items-center overflow-scroll')}>
           {filterThreadByTitle(thread).map(threads => {
             return <ThreadCard key={threads.id} {...threads} />;
           })}
         </View>
       </ScrollView>
+      {showCategory && <CategoryListMenu />}
+      {showMenu && <MenuItem />}
       <AddNewThreadButton />
-    </ThreadPageLayout>
+      <InputModal />
+    </View>
   );
 }
