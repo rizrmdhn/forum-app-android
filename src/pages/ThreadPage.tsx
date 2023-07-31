@@ -1,4 +1,4 @@
-import {StyleSheet, View, Dimensions} from 'react-native';
+import {StyleSheet, View, Dimensions, Appearance} from 'react-native';
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {IThread} from '../types/interface';
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ThreadPage() {
+export default function ThreadPage({navigation}: {navigation: any}) {
   const authUser = useSelectState('authUser');
   const thread = useSelectState('thread') as IThread[];
   const threadTitle = useSelectState('threadTitle') as string;
@@ -32,21 +32,40 @@ export default function ThreadPage() {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const isDarkMode = Appearance.getColorScheme() === 'dark';
+
   useEffect(() => {
     dispatch(asyncPopulateUsersAndThreads());
   }, [dispatch]);
 
   const filteredThread = thread
-    .filter(thread => thread.title.toLowerCase().includes(threadTitle.toLowerCase()))
-    .filter(thread => thread.category.toLowerCase().includes(category.toLowerCase()));
+    .filter(thread =>
+      thread.title.toLowerCase().includes(threadTitle.toLowerCase()),
+    )
+    .filter(thread =>
+      thread.category.toLowerCase().includes(category.toLowerCase()),
+    );
 
   return (
     <View>
       <HeaderThreadPage />
-      <ScrollView style={styles.threadCardContainer}>
-        <View style={tw.style('dark:bg-dark bg-light flex flex-col items-center overflow-scroll')}>
+      <ScrollView
+        style={tw.style(
+          {
+            'bg-light': !isDarkMode,
+            'bg-categoryDark': isDarkMode,
+          },
+          styles.threadCardContainer,
+        )}>
+        <View style={tw.style('flex flex-col items-center overflow-scroll')}>
           {filteredThread.map(threads => {
-            return <ThreadCard key={threads.id} {...threads} />;
+            return (
+              <ThreadCard
+                key={threads.id}
+                {...threads}
+                navigation={navigation}
+              />
+            );
           })}
         </View>
       </ScrollView>

@@ -33,10 +33,10 @@ function asyncGetTheme(): any {
   return async (dispatch: AppDispatch) => {
     try {
       const theme = await AsyncStorage.getItem('theme');
-      const isDark = Appearance.getColorScheme() === 'dark';
       if (theme) {
-        dispatch(changeTheme(isDark ? 'dark' : 'light'));
-        Appearance.setColorScheme(isDark ? 'light' : 'dark');
+        const isDark = theme === 'dark';
+        dispatch(changeTheme(JSON.stringify(theme)));
+        Appearance.setColorScheme(isDark ? 'dark' : 'light');
       }
     } catch (e) {
       dispatch(changeTheme('light'));

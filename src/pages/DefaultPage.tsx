@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Appearance} from 'react-native';
 import React, {useEffect} from 'react';
 import LeaderboardPage from './LeaderboardPage';
 import ThreadPage from './ThreadPage';
@@ -8,14 +8,18 @@ import MenuPage from './MenuPage';
 import {AppDispatch} from '../states';
 import {useDispatch} from 'react-redux';
 import {asyncSetIsPreload} from '../states/isPreload/action';
+import {asyncGetTheme} from '../states/theme/action';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export default function DefaultPage() {
   const dispatch = useDispatch<AppDispatch>();
 
+  const isDarkMode = Appearance.getColorScheme() === 'dark';
+
   useEffect(() => {
     dispatch(asyncSetIsPreload());
+    dispatch(asyncGetTheme());
   }, [dispatch]);
 
   return (
@@ -23,7 +27,7 @@ export default function DefaultPage() {
       initialRouteName="Thread"
       activeColor="#00C2FF"
       inactiveColor="#fff"
-      barStyle={{backgroundColor: '#393E46'}}>
+      barStyle={{backgroundColor: isDarkMode ? '#222831' : '#393E46'}}>
       <Tab.Screen
         name="Leaderboard"
         component={LeaderboardPage}

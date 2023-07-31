@@ -1,4 +1,4 @@
-import {Text, View, Image} from 'react-native';
+import {Text, View, Image, Appearance} from 'react-native';
 import {} from 'react-native-paper';
 import React from 'react';
 import tw from '../lib/tailwind';
@@ -15,6 +15,8 @@ export default function UserCard({
   isSvg: any;
   score: number;
 }) {
+  const isDarkMode = Appearance.getColorScheme() === 'dark';
+
   return (
     <View style={tw.style('flex flex-row justify-between mx-14')}>
       <View style={tw.style('flex flex-row items-center my-2')}>
@@ -32,10 +34,22 @@ export default function UserCard({
             />
           )}
         </>
-        <Text style={tw.style('ml-2')}>{name}</Text>
+        <Text
+          style={tw.style('ml-2', {
+            'text-black': !isDarkMode,
+            'text-white': isDarkMode,
+          })}>
+          {name}
+        </Text>
       </View>
       <View style={tw.style('mr-5 flex flex-row items-center')}>
-        <Text>{score}</Text>
+        <Text
+          style={tw.style({
+            'text-black': !isDarkMode,
+            'text-white': isDarkMode,
+          })}>
+          {score}
+        </Text>
       </View>
     </View>
   );

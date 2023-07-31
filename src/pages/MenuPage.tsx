@@ -6,7 +6,7 @@ import useSelectState from '../hooks/useSelectState';
 import {useDispatch} from 'react-redux';
 import {asyncGetTheme, asyncSetTheme} from '../states/theme/action';
 
-const {width, height} = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 
 export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
   const authUser = useSelectState('authUser');
@@ -28,7 +28,11 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
   }, [dispatch]);
 
   return (
-    <View style={tw.style('items-center justify-center', styles.menuContainer)}>
+    <View
+      style={tw.style('items-center justify-center', styles.menuContainer, {
+        'bg-light': !isDarkMode,
+        'bg-categoryDark': isDarkMode,
+      })}>
       <Pressable
         style={tw.style(
           'flex flex-row items-center justify-between mx-auto w-60 h-12 my-8   rounded-xl',
@@ -41,34 +45,65 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
         <MaterialIcons
           name="bedtime"
           size={30}
-          style={tw.style('text-black dark:text-white mx-10')}
+          style={tw.style('mx-10', {
+            'text-black': !isDarkMode,
+            'text-white': isDarkMode,
+          })}
         />
-        <Text style={tw.style('text-black dark:text-white mr-20 font-bold text-base')}>
+        <Text
+          style={tw.style(' mr-20 font-bold text-base', {
+            'text-black': !isDarkMode,
+            'text-white': isDarkMode,
+          })}>
           Dark Mode
         </Text>
       </Pressable>
       <Pressable
         style={tw.style(
           'flex flex-row items-center  justify-between mx-auto w-60 h-12 my-8 bg-threadCard dark:bg-threadCardDark rounded-xl',
+          {
+            'bg-threadCard': !isDarkMode,
+            'bg-threadCardDark': isDarkMode,
+          },
         )}>
         <MaterialIcons
           name="g-translate"
           size={30}
-          style={tw.style('text-black dark:text-white mx-10')}
+          style={tw.style('mx-10', {
+            'text-black': !isDarkMode,
+            'text-white': isDarkMode,
+          })}
         />
-        <Text style={tw.style('text-black dark:text-white mr-20 font-bold text-base')}>Bahasa</Text>
+        <Text
+          style={tw.style('mr-20 font-bold text-base', {
+            'text-black': !isDarkMode,
+            'text-white': isDarkMode,
+          })}>
+          Bahasa
+        </Text>
       </Pressable>
       {authUser ? (
         <Pressable
           style={tw.style(
             'flex flex-row items-center  justify-between w-60 h-12 my-8  bg-threadCard dark:bg-threadCardDark rounded-xl',
+            {
+              'bg-threadCard': !isDarkMode,
+              'bg-threadCardDark': isDarkMode,
+            },
           )}>
           <MaterialIcons
             name="logout"
             size={30}
-            style={tw.style('text-black dark:text-white mx-10')}
+            style={tw.style(' mx-10', {
+              'text-black': !isDarkMode,
+              'text-white': isDarkMode,
+            })}
           />
-          <Text style={tw.style('text-black dark:text-white mr-20 font-bold text-base')}>
+          <Text
+            style={tw.style('mr-20 font-bold text-base', {
+              'text-black': !isDarkMode,
+              'text-white': isDarkMode,
+            })}>
             Logout
           </Text>
         </Pressable>
@@ -76,14 +111,25 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
         <Pressable
           style={tw.style(
             'flex flex-row items-center  justify-between w-60 h-12 my-8  bg-threadCard dark:bg-threadCardDark rounded-xl',
+            {
+              'bg-threadCard': !isDarkMode,
+              'bg-threadCardDark': isDarkMode,
+            },
           )}
           onPress={navigateToLogin}>
           <MaterialIcons
             name="login"
             size={30}
-            style={tw.style('text-black dark:text-white mx-10')}
+            style={tw.style('mx-10', {
+              'text-black': !isDarkMode,
+              'text-white': isDarkMode,
+            })}
           />
-          <Text style={tw.style('text-black dark:text-white mr-20 font-bold text-base')}>
+          <Text
+            style={tw.style('mr-20 font-bold text-base', {
+              'text-black': !isDarkMode,
+              'text-white': isDarkMode,
+            })}>
             Login
           </Text>
         </Pressable>

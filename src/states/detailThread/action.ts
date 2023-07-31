@@ -9,6 +9,7 @@ import {
   INeutralVoteCommentThreadDetailAction,
   INeutralVoteThreadDetailAction,
   IReceiveThreadsDetailAction,
+  ISetThreadsDetailToNullAction,
   IUpVoteCommentThreadDetailAction,
   IUpVoteThreadDetailAction,
 } from './types/interface';
@@ -26,6 +27,7 @@ import {setIsLoading, unsetIsLoading} from '../isLoading/action';
 
 enum ActionType {
   RECEIVE_THREADS_DETAIL = 'RECEIVE_THREADS_DETAIL',
+  SET_THREADS_DETAIL_TO_NULL = 'SET_THREADS_DETAIL_TO_NULL',
   UP_VOTE_THREAD_DETAIL = 'UP_VOTE_THREAD_DETAIL',
   DOWN_VOTE_THREAD_DETAIL = 'DOWN_VOTE_THREAD_DETAIL',
   NEUTRAL_VOTE_THREAD_DETAIL = 'NEUTRAL_VOTE_THREAD_DETAIL',
@@ -35,7 +37,9 @@ enum ActionType {
   NEUTRAL_VOTE_COMMENT_THREAD_DETAIL = 'NEUTRAL_VOTE_COMMENT_THREAD_DETAIL',
 }
 
-function receiveThreadsDetail(threadDetail: IDetailThread): IReceiveThreadsDetailAction {
+function receiveThreadsDetail(
+  threadDetail: IDetailThread,
+): IReceiveThreadsDetailAction {
   return {
     type: ActionType.RECEIVE_THREADS_DETAIL,
     payload: {
@@ -44,7 +48,19 @@ function receiveThreadsDetail(threadDetail: IDetailThread): IReceiveThreadsDetai
   };
 }
 
-function upVoteThreadDetail(threadId: string, userId: string): IUpVoteThreadDetailAction {
+function setThreadsDetailToNull(): ISetThreadsDetailToNullAction {
+  return {
+    type: ActionType.SET_THREADS_DETAIL_TO_NULL,
+    payload: {
+      threadDetail: null,
+    },
+  };
+}
+
+function upVoteThreadDetail(
+  threadId: string,
+  userId: string,
+): IUpVoteThreadDetailAction {
   return {
     type: ActionType.UP_VOTE_THREAD_DETAIL,
     payload: {
@@ -54,7 +70,10 @@ function upVoteThreadDetail(threadId: string, userId: string): IUpVoteThreadDeta
   };
 }
 
-function downVoteThreadDetail(threadId: string, userId: string): IDownVoteThreadDetailAction {
+function downVoteThreadDetail(
+  threadId: string,
+  userId: string,
+): IDownVoteThreadDetailAction {
   return {
     type: ActionType.DOWN_VOTE_THREAD_DETAIL,
     payload: {
@@ -64,7 +83,10 @@ function downVoteThreadDetail(threadId: string, userId: string): IDownVoteThread
   };
 }
 
-function neutralVoteThreadDetail(threadId: string, userId: string): INeutralVoteThreadDetailAction {
+function neutralVoteThreadDetail(
+  threadId: string,
+  userId: string,
+): INeutralVoteThreadDetailAction {
   return {
     type: ActionType.NEUTRAL_VOTE_THREAD_DETAIL,
     payload: {
@@ -132,7 +154,10 @@ function neutralVoteCommentThreadDetail(
   };
 }
 
-function asyncGetThreadDetail({threadId, textErrorGetThreadDetail}: asyncGetThreadDetailAction) {
+function asyncGetThreadDetail({
+  threadId,
+  textErrorGetThreadDetail,
+}: asyncGetThreadDetailAction) {
   return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading());
     try {
@@ -317,7 +342,9 @@ function asyncNeutralVoteCommentThreadDetail({
     dispatch(setIsLoading());
     try {
       await api.neutralVoteComment({threadId, commentId});
-      dispatch(neutralVoteCommentThreadDetail(threadId, commentId, authUser.id));
+      dispatch(
+        neutralVoteCommentThreadDetail(threadId, commentId, authUser.id),
+      );
       Alert.alert('Success', textRemoveVoteSuccess || 'Remove vote success');
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -330,6 +357,7 @@ function asyncNeutralVoteCommentThreadDetail({
 
 export {
   ActionType,
+  setThreadsDetailToNull,
   asyncGetThreadDetail,
   asyncUpVoteThreadDetail,
   asyncDownVoteThreadDetail,

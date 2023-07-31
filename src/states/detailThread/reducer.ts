@@ -9,7 +9,9 @@ export default function detailThreadReducer(
 ): DetailThreadState {
   switch (action.type) {
     case ActionType.RECEIVE_THREADS_DETAIL:
-      return action.payload.thread;
+      return action.payload.threadDetail;
+    case ActionType.SET_THREADS_DETAIL_TO_NULL:
+      return null;
     case ActionType.CREATE_COMMENT_THREAD_DETAIL:
       if (!state) {
         return state;
@@ -40,8 +42,12 @@ export default function detailThreadReducer(
       }
       return {
         ...state,
-        upVotesBy: state.upVotesBy.filter(userId => userId !== action.payload.userId),
-        downVotesBy: state.downVotesBy.filter(userId => userId !== action.payload.userId),
+        upVotesBy: state.upVotesBy.filter(
+          userId => userId !== action.payload.userId,
+        ),
+        downVotesBy: state.downVotesBy.filter(
+          userId => userId !== action.payload.userId,
+        ),
       };
     case ActionType.UP_VOTE_COMMENT_THREAD_DETAIL:
       if (!state) {
@@ -85,8 +91,12 @@ export default function detailThreadReducer(
           if (comment.id === action.payload.commentId) {
             return {
               ...comment,
-              upVotes: comment.upVotesBy.filter(userId => userId !== action.payload.userId),
-              downVotes: comment.downVotesBy.filter(userId => userId !== action.payload.userId),
+              upVotes: comment.upVotesBy.filter(
+                userId => userId !== action.payload.userId,
+              ),
+              downVotes: comment.downVotesBy.filter(
+                userId => userId !== action.payload.userId,
+              ),
             };
           }
           return comment;

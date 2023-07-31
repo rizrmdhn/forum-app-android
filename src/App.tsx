@@ -17,6 +17,7 @@ import DefaultPage from './pages/DefaultPage';
 import DetailThreadPage from './pages/DetailThreadPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import SplashScreen from './pages/SplashScreen';
 
 const Stack = createStackNavigator();
 
@@ -26,18 +27,17 @@ function App(): JSX.Element {
       <SafeAreaProvider>
         <Provider store={store}>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="Default">
+            <Stack.Navigator initialRouteName="Splash">
+              <Stack.Screen name="Splash" component={SplashScreen} options={{headerShown: false}} />
               <Stack.Screen name="Default" component={DefaultPage} options={{headerShown: false}} />
               <Stack.Screen
                 name="Leaderboard"
                 component={LeaderboardPage}
                 options={{headerShown: true}}
               />
-              <Stack.Screen
-                name="DetailThread"
-                component={DetailThreadPage}
-                options={{headerShown: false}}
-              />
+              <Stack.Screen name="DetailThread" options={{headerShown: false}}>
+                {props => <DetailThreadPage {...props} threadId={props.route.params?.threadId} />}
+              </Stack.Screen>
               <Stack.Screen name="Login" component={LoginPage} options={{headerShown: false}} />
               <Stack.Screen
                 name="Register"

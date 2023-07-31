@@ -1,4 +1,4 @@
-import {View, Pressable} from 'react-native';
+import {View, Pressable, Appearance} from 'react-native';
 import React from 'react';
 import tw from '../lib/tailwind';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -12,6 +12,8 @@ export default function HeaderThreadPage() {
   const showCategory = useSelectState('showCategory');
 
   const dispatch = useDispatch();
+
+  const isDarkMode = Appearance.getColorScheme() === 'dark';
 
   const openCategory = () => {
     if (showCategory) {
@@ -27,9 +29,10 @@ export default function HeaderThreadPage() {
 
   return (
     <View
-      style={tw.style(
-        `flex bg-defaultLightHeaders h-20 dark:bg-dark justify-between flex-row px-6 py-2`,
-      )}>
+      style={tw.style(`flex h-20  justify-between flex-row px-6 py-2`, {
+        'bg-defaultDarkHeaders': isDarkMode,
+        'bg-defaultLightHeaders': !isDarkMode,
+      })}>
       <Pressable style={tw.style('my-4')} onPress={openCategory}>
         <MaterialIcons name="filter-list-alt" size={30} color="white" />
       </Pressable>

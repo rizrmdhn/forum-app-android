@@ -190,12 +190,15 @@ const api = (() => {
     threadId: string;
     content: string;
   }): Promise<IComment> {
-    const response = await _fetchWithAuth(`${baseUrl}/threads/${threadId}/comments`, {
-      method: 'POST',
-      data: {
-        content,
+    const response = await _fetchWithAuth(
+      `${baseUrl}/threads/${threadId}/comments`,
+      {
+        method: 'POST',
+        data: {
+          content,
+        },
       },
-    });
+    );
 
     const {status, message}: ICreateCommentResponse = response.data;
 
@@ -211,9 +214,12 @@ const api = (() => {
   }
 
   async function upVoteThread(threadId: string) {
-    const response = await _fetchWithAuth(`${baseUrl}/threads/${threadId}/up-vote`, {
-      method: 'POST',
-    });
+    const response = await _fetchWithAuth(
+      `${baseUrl}/threads/${threadId}/up-vote`,
+      {
+        method: 'POST',
+      },
+    );
 
     const {status, message}: ICreateVoteResponse = response.data;
 
@@ -223,9 +229,12 @@ const api = (() => {
   }
 
   async function downVoteThread(threadId: string) {
-    const response = await _fetchWithAuth(`${baseUrl}/threads/${threadId}/down-vote`, {
-      method: 'POST',
-    });
+    const response = await _fetchWithAuth(
+      `${baseUrl}/threads/${threadId}/down-vote`,
+      {
+        method: 'POST',
+      },
+    );
 
     const {status, message}: ICreateVoteResponse = response.data;
 
@@ -235,9 +244,12 @@ const api = (() => {
   }
 
   async function neturalVoteThread(threadId: string) {
-    const response = await _fetchWithAuth(`${baseUrl}/threads/${threadId}/neutral-vote`, {
-      method: 'POST',
-    });
+    const response = await _fetchWithAuth(
+      `${baseUrl}/threads/${threadId}/neutral-vote`,
+      {
+        method: 'POST',
+      },
+    );
 
     const {status, message}: ICreateVoteResponse = response.data;
 
@@ -246,7 +258,13 @@ const api = (() => {
     }
   }
 
-  async function upVoteComment({threadId, commentId}: {threadId: string; commentId: string}) {
+  async function upVoteComment({
+    threadId,
+    commentId,
+  }: {
+    threadId: string;
+    commentId: string;
+  }) {
     const response = await _fetchWithAuth(
       `${baseUrl}/threads/${threadId}/comments/${commentId}/down-vote`,
       {
@@ -261,7 +279,13 @@ const api = (() => {
     }
   }
 
-  async function downVoteComment({threadId, commentId}: {threadId: string; commentId: string}) {
+  async function downVoteComment({
+    threadId,
+    commentId,
+  }: {
+    threadId: string;
+    commentId: string;
+  }) {
     const response = await _fetchWithAuth(
       `${baseUrl}/threads/${threadId}/comments/${commentId}/down-vote`,
       {
@@ -276,7 +300,13 @@ const api = (() => {
     }
   }
 
-  async function neutralVoteComment({threadId, commentId}: {threadId: string; commentId: string}) {
+  async function neutralVoteComment({
+    threadId,
+    commentId,
+  }: {
+    threadId: string;
+    commentId: string;
+  }) {
     const response = await _fetchWithAuth(
       `${baseUrl}/threads/${threadId}/comments/${commentId}/neutral-vote`,
       {

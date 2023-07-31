@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Dimensions, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, ScrollView, Appearance} from 'react-native';
 import {useEffect} from 'react';
 import Leaderboardheader from '../components/Leaderboardheader';
 import tw from '../lib/tailwind';
@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
 
 export default function LeaderboardPage() {
   const leaderboard = useSelectState('leaderboard') as ILeaderboard[];
+
+  const isDarkMode = Appearance.getColorScheme() === 'dark';
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -43,15 +45,38 @@ export default function LeaderboardPage() {
   return (
     <View>
       <Leaderboardheader />
-      <View style={tw.style('flex flex-row items-center justify-center p-2')}>
+      <View
+        style={tw.style('flex flex-row items-center justify-center p-2', {
+          'bg-light': !isDarkMode,
+          'bg-categoryDark': isDarkMode,
+        })}>
         <View style={tw.style('mx-20')}>
-          <Text style={tw.style('font-bold text-sm text-black dark:text-white')}>Pengguna</Text>
+          <Text
+            style={tw.style('font-bold text-sm ', {
+              'text-black ': !isDarkMode,
+              'text-white': isDarkMode,
+            })}>
+            Pengguna
+          </Text>
         </View>
         <View style={tw.style('mx-20')}>
-          <Text style={tw.style('font-bold text-sm text-black dark:text-white')}>Skor</Text>
+          <Text
+            style={tw.style('font-bold text-sm ', {
+              'text-black ': !isDarkMode,
+              'text-white': isDarkMode,
+            })}>
+            Skor
+          </Text>
         </View>
       </View>
-      <ScrollView style={styles.leaderboardUserCardContainer}>
+      <ScrollView
+        style={tw.style(
+          {
+            'bg-light': !isDarkMode,
+            'bg-categoryDark': isDarkMode,
+          },
+          styles.leaderboardUserCardContainer,
+        )}>
         {mappingLeaderboard(leaderboard)}
       </ScrollView>
     </View>

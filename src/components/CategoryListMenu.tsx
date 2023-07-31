@@ -1,4 +1,4 @@
-import {Text, View, Pressable} from 'react-native';
+import {Text, View, Pressable, Appearance} from 'react-native';
 import React from 'react';
 import tw from '../lib/tailwind';
 import * as Animatable from 'react-native-animatable';
@@ -14,6 +14,8 @@ export default function CategoryListMenu() {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const isDarkMode = Appearance.getColorScheme() === 'dark';
+
   const filterThreadByTitle = (text: string) => {
     if (category === text) {
       dispatch(setFilterThreadByCategory(''));
@@ -25,7 +27,10 @@ export default function CategoryListMenu() {
   return (
     <Animatable.View
       animation={'fadeInLeftBig'}
-      style={tw.style('absolute top-20 left-0 bg-defaultLightHeaders w-36 rounded-br-2xl')}>
+      style={tw.style('absolute top-20 left-0 w-36 rounded-br-2xl', {
+        'bg-defaultLightHeaders': !isDarkMode,
+        'bg-defaultDarkHeaders': isDarkMode,
+      })}>
       <View style={tw.style('flex flex-col items-center')}>
         <Text style={tw.style('text-white dark:text-white')}>Kategory List</Text>
       </View>

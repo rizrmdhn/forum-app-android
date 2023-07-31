@@ -7,6 +7,13 @@ export interface IReceiveThreadsDetailAction {
   };
 }
 
+export interface ISetThreadsDetailToNullAction {
+  type: string;
+  payload: {
+    threadDetail: null;
+  };
+}
+
 export interface IUpVoteThreadDetailAction {
   type: string;
   payload: {

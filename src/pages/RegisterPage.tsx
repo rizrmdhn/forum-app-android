@@ -20,13 +20,24 @@ export default function RegisterPage({navigation}: {navigation: any}) {
       </View>
       <View style={tw.style('flex flex-col items-center mt-20')}>
         <View style={tw.style('mb-10')}>
-          <Text style={tw.style('text-black dark:text-white font-bold text-4xl')}>Register</Text>
+          <Text
+            style={tw.style('text-black dark:text-white font-bold text-4xl')}>
+            Register
+          </Text>
         </View>
         <View style={tw.style('w-72 my-8')}>
-          <Input placeholder="Name" placeholderTextColor="black" borderColor={'#000'} />
+          <Input
+            placeholder="Name"
+            placeholderTextColor="black"
+            borderColor={'#000'}
+          />
         </View>
         <View style={tw.style('w-72')}>
-          <Input placeholder="Email" placeholderTextColor="black" borderColor={'#000'} />
+          <Input
+            placeholder="Email"
+            placeholderTextColor="black"
+            borderColor={'#000'}
+          />
         </View>
         <View style={tw.style('w-72 my-8')}>
           <Input
@@ -41,14 +52,19 @@ export default function RegisterPage({navigation}: {navigation: any}) {
             style={tw.style(
               'flex flex-row items-center justify-center w-72 h-12 bg-black dark:bg-threadCardDark',
             )}>
-            <Text style={tw.style('text-white dark:text-black font-bold text-base')}>Register</Text>
+            <Text
+              style={tw.style(
+                'text-white dark:text-black font-bold text-base',
+              )}>
+              Register
+            </Text>
           </Pressable>
         </View>
         <View style={tw.style('mt-4')}>
           <Text style={tw.style('text-black dark:text-white')}>
             Already have an account?{' '}
             <Text
-              onPress={() => console.log('sign up')}
+              onPress={() => navigation.navigate('Login')}
               style={tw.style('text-black dark:text-white underline')}>
               Login here
             </Text>
