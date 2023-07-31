@@ -8,10 +8,12 @@ export default function Leaderboardheader() {
   return (
     <View
       style={tw.style(`flex h-20 items-center justify-center`, {
-        'bg-defaultHeaders': !isDarkMode,
+        'bg-defaultLightHeaders': !isDarkMode,
         'bg-defaultDarkHeaders': isDarkMode,
       })}>
-      <Text style={tw.style('text-white font-bold text-sm')}>Klasemen Pengguna Aktif</Text>
+      <Text style={tw.style('text-white font-bold text-sm')}>
+        Klasemen Pengguna Aktif
+      </Text>
     </View>
   );
 }

@@ -18,28 +18,20 @@ function changeTheme(theme: string): IChangeThemeAction {
 
 function asyncSetTheme(theme: string): any {
   return async (dispatch: AppDispatch) => {
-    try {
-      const isDark = Appearance.getColorScheme() === 'dark';
-      await AsyncStorage.setItem('theme', theme);
-      Appearance.setColorScheme(isDark ? 'light' : 'dark');
-      dispatch(changeTheme(theme));
-    } catch (e) {
-      dispatch(changeTheme('light'));
-    }
+    const isDark = Appearance.getColorScheme() === 'dark';
+    await AsyncStorage.setItem('theme', theme);
+    Appearance.setColorScheme(isDark ? 'light' : 'dark');
+    dispatch(changeTheme(theme));
   };
 }
 
 function asyncGetTheme(): any {
   return async (dispatch: AppDispatch) => {
-    try {
-      const theme = await AsyncStorage.getItem('theme');
-      if (theme) {
-        const isDark = theme === 'dark';
-        dispatch(changeTheme(JSON.stringify(theme)));
-        Appearance.setColorScheme(isDark ? 'dark' : 'light');
-      }
-    } catch (e) {
-      dispatch(changeTheme('light'));
+    const theme = await AsyncStorage.getItem('theme');
+    if (theme) {
+      const isDark = theme === 'dark';
+      dispatch(changeTheme(JSON.stringify(theme)));
+      Appearance.setColorScheme(isDark ? 'dark' : 'light');
     }
   };
 }

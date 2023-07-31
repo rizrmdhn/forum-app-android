@@ -1,4 +1,11 @@
-import {Dimensions, Pressable, StyleSheet, Text, View, Appearance} from 'react-native';
+import {
+  Dimensions,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  Appearance,
+} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import React, {useEffect} from 'react';
 import tw from '../lib/tailwind';
@@ -20,6 +27,7 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
   };
 
   const changeTheme = () => {
+    Appearance.setColorScheme(isDarkMode ? 'light' : 'dark');
     dispatch(asyncSetTheme(isDarkMode ? 'light' : 'dark'));
   };
 
