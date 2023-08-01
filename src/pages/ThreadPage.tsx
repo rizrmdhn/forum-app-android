@@ -13,6 +13,7 @@ import HeaderThreadPage from '../components/HeaderThreadPage';
 import CategoryListMenu from '../components/CategoryListMenu';
 import MenuItem from '../components/MenuItem';
 import InputModal from '../components/InputModal';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -47,32 +48,34 @@ export default function ThreadPage({navigation}: {navigation: any}) {
     );
 
   return (
-    <View>
-      <HeaderThreadPage />
-      <ScrollView
-        style={tw.style(
-          {
-            'bg-light': !isDarkMode,
-            'bg-categoryDark': isDarkMode,
-          },
-          styles.threadCardContainer,
-        )}>
-        <View style={tw.style('flex flex-col items-center overflow-scroll')}>
-          {filteredThread.map(threads => {
-            return (
-              <ThreadCard
-                key={threads.id}
-                {...threads}
-                navigation={navigation}
-              />
-            );
-          })}
-        </View>
-      </ScrollView>
-      {showCategory && <CategoryListMenu />}
-      {showMenu && <MenuItem />}
-      {authUser && <AddNewThreadButton />}
-      <InputModal />
-    </View>
+    <>
+      <View>
+        <HeaderThreadPage />
+        <ScrollView
+          style={tw.style(
+            {
+              'bg-light': !isDarkMode,
+              'bg-categoryDark': isDarkMode,
+            },
+            styles.threadCardContainer,
+          )}>
+          <View style={tw.style('flex flex-col items-center overflow-scroll')}>
+            {filteredThread.map(threads => {
+              return (
+                <ThreadCard
+                  key={threads.id}
+                  {...threads}
+                  navigation={navigation}
+                />
+              );
+            })}
+          </View>
+        </ScrollView>
+        {showCategory && <CategoryListMenu />}
+        {showMenu && <MenuItem />}
+        {authUser && <AddNewThreadButton />}
+        <InputModal />
+      </View>
+    </>
   );
 }

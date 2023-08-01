@@ -83,13 +83,13 @@ export default function LoginPage({navigation}: {navigation: any}) {
                 'bg-black': !isDarkMode,
                 'bg-white': isDarkMode,
               },
-            )}>
+            )}
+            onPress={() => onSubmit({navigation})}>
             <Text
               style={tw.style('font-bold text-base', {
                 'text-white': !isDarkMode,
                 'text-black': isDarkMode,
-              })}
-              onPress={() => onSubmit({navigation})}>
+              })}>
               Login
             </Text>
           </Pressable>
