@@ -12,6 +12,7 @@ import moment from 'moment';
 import 'moment/locale/id';
 import useSelectState from '../hooks/useSelectState';
 import useLocale from '../hooks/useLocale';
+import useVoteThread from '../hooks/useVoteThread';
 
 export default function ThreadCard({
   id,
@@ -25,6 +26,7 @@ export default function ThreadCard({
   totalComments,
   navigation,
 }: IThread & {navigation: any}) {
+  const authUser = useSelectState('authUser') as IUser;
   const user = useSelectState('user') as IUser[];
   const locale = useSelectState('locale') as string;
 
@@ -34,10 +36,15 @@ export default function ThreadCard({
 
   const {width} = useWindowDimensions();
 
+  const [upVoteThread, downVoteThread, removeVoteThread] = useVoteThread();
+
   const dispatch = useDispatch<AppDispatch>();
 
   const creator = user.find((u: any) => u.id === ownerId);
   const creatorName = creator ? creator.name : '';
+
+  const isUpVoted = upVotesBy.includes(authUser.id);
+  const isDownVoted = downVotesBy.includes(authUser.id);
 
   const onGetDetailThread = () => {
     dispatch(asyncGetThreadDetail({threadId: id}));
@@ -45,7 +52,23 @@ export default function ThreadCard({
       navigation.navigate('DetailThread', {
         threadId: id,
       });
-    }, 500);
+    }, 700);
+  };
+
+  const handleUpVote = (id: string) => {
+    if (isUpVoted) {
+      removeVoteThread(id);
+    } else {
+      upVoteThread(id);
+    }
+  };
+
+  const handleDownVote = (id: string) => {
+    if (isDownVoted) {
+      removeVoteThread(id);
+    } else {
+      downVoteThread(id);
+    }
   };
 
   return (
@@ -91,38 +114,76 @@ export default function ThreadCard({
           />
         </Box>
         <Box style={tw.style('w-auto flex flex-row')}>
-          <Pressable
-            style={tw.style('w-20 mt-2 flex flex-row')}
-            onPress={() => console.log('upvoted')}>
-            <MaterialIcons
-              name="thumb-up-off-alt"
-              size={25}
-              color={isDarkMode ? 'white' : 'black'}
-            />
-            <Text
-              style={tw.style('ml-2 ', {
-                'text-white': isDarkMode,
-                'text-black': !isDarkMode,
-              })}>
-              {upVotesBy.length}
-            </Text>
-          </Pressable>
-          <Pressable
-            style={tw.style('w-20 mt-2 flex flex-row')}
-            onPress={() => console.log('downvoted')}>
-            <MaterialIcons
-              name="thumb-down-off-alt"
-              size={25}
-              color={isDarkMode ? 'white' : 'black'}
-            />
-            <Text
-              style={tw.style('ml-2 ', {
-                'text-white': isDarkMode,
-                'text-black': !isDarkMode,
-              })}>
-              {downVotesBy.length}
-            </Text>
-          </Pressable>
+          {isUpVoted ? (
+            <Pressable
+              style={tw.style('w-20 mt-2 flex flex-row')}
+              onPress={() => handleUpVote(id)}>
+              <MaterialIcons
+                name="thumb-up-alt"
+                size={25}
+                color={isDarkMode ? 'white' : 'black'}
+              />
+              <Text
+                style={tw.style('ml-2 ', {
+                  'text-white': isDarkMode,
+                  'text-black': !isDarkMode,
+                })}>
+                {upVotesBy.length}
+              </Text>
+            </Pressable>
+          ) : (
+            <Pressable
+              style={tw.style('w-20 mt-2 flex flex-row')}
+              onPress={() => handleUpVote(id)}>
+              <MaterialIcons
+                name="thumb-up-off-alt"
+                size={25}
+                color={isDarkMode ? 'white' : 'black'}
+              />
+              <Text
+                style={tw.style('ml-2 ', {
+                  'text-white': isDarkMode,
+                  'text-black': !isDarkMode,
+                })}>
+                {upVotesBy.length}
+              </Text>
+            </Pressable>
+          )}
+          {isDownVoted ? (
+            <Pressable
+              style={tw.style('w-20 mt-2 flex flex-row')}
+              onPress={() => handleDownVote(id)}>
+              <MaterialIcons
+                name="thumb-down-alt"
+                size={25}
+                color={isDarkMode ? 'white' : 'black'}
+              />
+              <Text
+                style={tw.style('ml-2 ', {
+                  'text-white': isDarkMode,
+                  'text-black': !isDarkMode,
+                })}>
+                {downVotesBy.length}
+              </Text>
+            </Pressable>
+          ) : (
+            <Pressable
+              style={tw.style('w-20 mt-2 flex flex-row')}
+              onPress={() => handleDownVote(id)}>
+              <MaterialIcons
+                name="thumb-down-off-alt"
+                size={25}
+                color={isDarkMode ? 'white' : 'black'}
+              />
+              <Text
+                style={tw.style('ml-2 ', {
+                  'text-white': isDarkMode,
+                  'text-black': !isDarkMode,
+                })}>
+                {downVotesBy.length}
+              </Text>
+            </Pressable>
+          )}
           <View style={tw.style('w-20 mt-2 flex flex-row')}>
             <MaterialIcons
               name="chat-bubble-outline"

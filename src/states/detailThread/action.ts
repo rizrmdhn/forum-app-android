@@ -25,6 +25,11 @@ import {
 } from './types/type';
 import {setIsLoading, unsetIsLoading} from '../isLoading/action';
 import {asyncCheckIfImageContainSvg} from '../isSvg/action';
+import {
+  downVoteThread,
+  neturealVoteThread,
+  upVoteThread,
+} from '../thread/action';
 
 enum ActionType {
   RECEIVE_THREADS_DETAIL = 'RECEIVE_THREADS_DETAIL',
@@ -179,17 +184,19 @@ function asyncUpVoteThreadDetail({
   textErrorUpVote,
   textLoginToVote,
   textUpVoteSuccess,
-}: asyncUpVoteThreadDetailAction) {
+}: asyncUpVoteThreadDetailAction): any {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
+    dispatch(setIsLoading());
     const {authUser} = getState();
     if (!authUser) {
       Alert.alert('Error', textLoginToVote);
       return;
     }
-    dispatch(setIsLoading());
+
+    dispatch(upVoteThreadDetail(threadId, authUser.id));
+    dispatch(upVoteThread(threadId, authUser.id));
     try {
       await api.upVoteThread(threadId);
-      dispatch(upVoteThreadDetail(threadId, authUser.id));
       Alert.alert('Success', textUpVoteSuccess);
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -205,17 +212,18 @@ function asyncDownVoteThreadDetail({
   textErrorDownVote,
   textLoginToVote,
   textDownVoteSuccess,
-}: asyncDownVoteThreadDetailAction) {
+}: asyncDownVoteThreadDetailAction): any {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
+    dispatch(setIsLoading());
     const {authUser} = getState();
     if (!authUser) {
       Alert.alert('Error', textLoginToVote);
       return;
     }
-    dispatch(setIsLoading());
+    dispatch(downVoteThreadDetail(threadId, authUser.id));
+    dispatch(downVoteThread(threadId, authUser.id));
     try {
       await api.downVoteThread(threadId);
-      dispatch(downVoteThreadDetail(threadId, authUser.id));
       Alert.alert('Success', textDownVoteSuccess);
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -231,17 +239,18 @@ function asyncNeutralVoteThreadDetail({
   textRemoveVoteSuccess,
   textLoginToVote,
   textErrorRemoveVote,
-}: asyncNeutralVoteThreadDetailAction) {
+}: asyncNeutralVoteThreadDetailAction): any {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
+    dispatch(setIsLoading());
     const {authUser} = getState();
     if (!authUser) {
       Alert.alert('Error', textLoginToVote);
       return;
     }
-    dispatch(setIsLoading());
+    dispatch(neutralVoteThreadDetail(threadId, authUser.id));
+    dispatch(neturealVoteThread(threadId, authUser.id));
     try {
       await api.neturalVoteThread(threadId);
-      dispatch(neutralVoteThreadDetail(threadId, authUser.id));
       Alert.alert('Success', textRemoveVoteSuccess);
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -257,7 +266,7 @@ function asyncCreateCommentThreadDetail({
   content,
   textCommentCreated,
   textErrorCreateComment,
-}: asyncCreateCommentThreadDetailAction) {
+}: asyncCreateCommentThreadDetailAction): any {
   return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading());
     try {
@@ -279,7 +288,7 @@ function asyncUpVoteCommentThreadDetail({
   textErrorUpVote,
   textLoginToVote,
   textUpVoteSuccess,
-}: asyncUpVoteCommentThreadDetailAction) {
+}: asyncUpVoteCommentThreadDetailAction): any {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     const {authUser} = getState();
     if (!authUser) {
@@ -306,7 +315,7 @@ function asyncDownVoteCommentThreadDetail({
   textErrorDownVote,
   textLoginToVote,
   textDownVoteSuccess,
-}: asyncDownVoteCommentThreadDetailAction) {
+}: asyncDownVoteCommentThreadDetailAction): any {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     const {authUser} = getState();
     if (!authUser) {
@@ -333,7 +342,7 @@ function asyncNeutralVoteCommentThreadDetail({
   textErrorRemoveVote,
   textLoginToVote,
   textRemoveVoteSuccess,
-}: asyncNeutralVoteCommentThreadDetailAction) {
+}: asyncNeutralVoteCommentThreadDetailAction): any {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     const {authUser} = getState();
     if (!authUser) {

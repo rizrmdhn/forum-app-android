@@ -53,7 +53,10 @@ function upVoteThread(threadId: string, userId: string): IUpVoteThreadAction {
   };
 }
 
-function downVoteThread(threadId: string, userId: string): IDownVoteThreadAction {
+function downVoteThread(
+  threadId: string,
+  userId: string,
+): IDownVoteThreadAction {
   return {
     type: ActionType.DOWN_VOTE_THREAD,
     payload: {
@@ -63,7 +66,10 @@ function downVoteThread(threadId: string, userId: string): IDownVoteThreadAction
   };
 }
 
-function neturealVoteThread(threadId: string, userId: string): INeturalVoteThreadAction {
+function neturealVoteThread(
+  threadId: string,
+  userId: string,
+): INeturalVoteThreadAction {
   return {
     type: ActionType.NETURAL_VOTE_THREAD,
     payload: {
@@ -86,7 +92,10 @@ function asyncCreateThread({
       const thread: IThread = await api.createThread({title, body, category});
       dispatch(createThread(thread));
 
-      Alert.alert('Success', textThreadCreated || 'You have successfully created a new thread');
+      Alert.alert(
+        'Success',
+        textThreadCreated || 'You have successfully created a new thread',
+      );
     } catch (error: unknown) {
       if (error instanceof Error) {
         return Alert.alert('Error', textErrorCreateThread || 'Error');
@@ -101,7 +110,7 @@ function asyncUpVoteThread({
   textErrorUpVote,
   textLoginToVote,
   textUpVoteSuccess,
-}: asyncUpVoteThreadAction) {
+}: asyncUpVoteThreadAction): any {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch(setIsLoading());
     const {authUser} = getState();
@@ -114,7 +123,10 @@ function asyncUpVoteThread({
     try {
       await api.upVoteThread(threadId);
 
-      Alert.alert('Success', textUpVoteSuccess || 'You have successfully up voted this thread');
+      Alert.alert(
+        'Success',
+        textUpVoteSuccess || 'You have successfully up voted this thread',
+      );
     } catch (error: unknown) {
       if (error instanceof Error) {
         return Alert.alert('Error', textErrorUpVote || 'Error');
@@ -130,7 +142,7 @@ function asyncDownVoteThread({
   textDownVoteSuccess,
   textErrorDownVote,
   textLoginToVote,
-}: asyncDownVoteThreadAction) {
+}: asyncDownVoteThreadAction): any {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch(setIsLoading());
     const {authUser} = getState();
@@ -143,7 +155,10 @@ function asyncDownVoteThread({
     try {
       await api.downVoteThread(threadId);
 
-      Alert.alert('Success', textDownVoteSuccess || 'You have successfully down voted this thread');
+      Alert.alert(
+        'Success',
+        textDownVoteSuccess || 'You have successfully down voted this thread',
+      );
     } catch (error: unknown) {
       if (error instanceof Error) {
         return Alert.alert('Error', textErrorDownVote || 'Error');
@@ -159,7 +174,7 @@ function asyncNeturalVoteThread({
   textErrorRemoveVote,
   textLoginToVote,
   textRemoveVoteSuccess,
-}: asyncNeturalVoteThreadAction) {
+}: asyncNeturalVoteThreadAction): any {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch(setIsLoading());
     const {authUser} = getState();
@@ -172,7 +187,10 @@ function asyncNeturalVoteThread({
     try {
       await api.neturalVoteThread(threadId);
 
-      Alert.alert('Success', textRemoveVoteSuccess || 'You have successfully remove your vote');
+      Alert.alert(
+        'Success',
+        textRemoveVoteSuccess || 'You have successfully remove your vote',
+      );
     } catch (error: unknown) {
       if (error instanceof Error) {
         return Alert.alert('Error', textErrorRemoveVote || 'Error');
@@ -186,6 +204,9 @@ function asyncNeturalVoteThread({
 export {
   ActionType,
   receiveThread,
+  upVoteThread,
+  downVoteThread,
+  neturealVoteThread,
   asyncCreateThread,
   asyncUpVoteThread,
   asyncDownVoteThread,

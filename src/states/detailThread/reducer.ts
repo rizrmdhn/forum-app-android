@@ -27,6 +27,9 @@ export default function detailThreadReducer(
       return {
         ...state,
         upVotesBy: [...state.upVotesBy, action.payload.userId],
+        downVotesBy: state.downVotesBy.filter(
+          userId => userId !== action.payload.userId,
+        ),
       };
     case ActionType.DOWN_VOTE_THREAD_DETAIL:
       if (!state) {
@@ -34,6 +37,9 @@ export default function detailThreadReducer(
       }
       return {
         ...state,
+        upVotesBy: state.upVotesBy.filter(
+          userId => userId !== action.payload.userId,
+        ),
         downVotesBy: [...state.downVotesBy, action.payload.userId],
       };
     case ActionType.NEUTRAL_VOTE_THREAD_DETAIL:
@@ -59,7 +65,10 @@ export default function detailThreadReducer(
           if (comment.id === action.payload.commentId) {
             return {
               ...comment,
-              upVotes: [...comment.upVotesBy, action.payload.userId],
+              upVotesBy: [...comment.upVotesBy, action.payload.userId],
+              downVotesBy: comment.downVotesBy.filter(
+                userId => userId !== action.payload.userId,
+              ),
             };
           }
           return comment;
@@ -75,7 +84,10 @@ export default function detailThreadReducer(
           if (comment.id === action.payload.commentId) {
             return {
               ...comment,
-              downVotes: [...comment.downVotesBy, action.payload.userId],
+              upVotesBy: comment.upVotesBy.filter(
+                userId => userId !== action.payload.userId,
+              ),
+              downVotesBy: [...comment.downVotesBy, action.payload.userId],
             };
           }
           return comment;
@@ -91,10 +103,10 @@ export default function detailThreadReducer(
           if (comment.id === action.payload.commentId) {
             return {
               ...comment,
-              upVotes: comment.upVotesBy.filter(
+              upVotesBy: comment.upVotesBy.filter(
                 userId => userId !== action.payload.userId,
               ),
-              downVotes: comment.downVotesBy.filter(
+              downVotesBy: comment.downVotesBy.filter(
                 userId => userId !== action.payload.userId,
               ),
             };

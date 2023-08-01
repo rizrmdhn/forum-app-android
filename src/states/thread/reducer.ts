@@ -4,7 +4,10 @@ import {Action} from './types/type';
 
 const initialState: IThread[] = [];
 
-export default function threadReducer(state: IThread[] = initialState, action: Action): IThread[] {
+export default function threadReducer(
+  state: IThread[] = initialState,
+  action: Action,
+): IThread[] {
   switch (action.type) {
     case ActionType.RECEIVE_THREAD:
       return action.payload.threads;
@@ -15,7 +18,10 @@ export default function threadReducer(state: IThread[] = initialState, action: A
         if (thread.id === action.payload.threadId) {
           return {
             ...thread,
-            upVotes: [...thread.upVotesBy, action.payload.userId],
+            upVotesBy: [...thread.upVotesBy, action.payload.userId],
+            downVotesBy: thread.downVotesBy.filter(
+              userId => userId !== action.payload.userId,
+            ),
           };
         }
         return thread;
@@ -25,7 +31,10 @@ export default function threadReducer(state: IThread[] = initialState, action: A
         if (thread.id === action.payload.threadId) {
           return {
             ...thread,
-            downVotes: [...thread.downVotesBy, action.payload.userId],
+            upVotesBy: thread.upVotesBy.filter(
+              userId => userId !== action.payload.userId,
+            ),
+            downVotesBy: [...thread.downVotesBy, action.payload.userId],
           };
         }
         return thread;
@@ -35,7 +44,12 @@ export default function threadReducer(state: IThread[] = initialState, action: A
         if (thread.id === action.payload.threadId) {
           return {
             ...thread,
-            upVotes: thread.upVotesBy.filter(userId => userId !== action.payload.userId),
+            upVotesBy: thread.upVotesBy.filter(
+              userId => userId !== action.payload.userId,
+            ),
+            downVotesBy: thread.downVotesBy.filter(
+              userId => userId !== action.payload.userId,
+            ),
           };
         }
         return thread;
