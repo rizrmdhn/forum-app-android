@@ -6,7 +6,13 @@ import {useDispatch} from 'react-redux';
 import {AppDispatch} from '../states';
 import {setThreadsDetailToNull} from '../states/detailThread/action';
 
-export default function DetailThreadHeader({navigation}: {navigation: any}) {
+export default function DetailThreadHeader({
+  navigation,
+  title,
+}: {
+  navigation: any;
+  title: string;
+}) {
   const isDarkMode = Appearance.getColorScheme() === 'dark';
 
   const dispatch = useDispatch<AppDispatch>();
@@ -31,8 +37,12 @@ export default function DetailThreadHeader({navigation}: {navigation: any}) {
           style={tw.style('mx-10 text-white')}
         />
       </Pressable>
-      <View style={tw.style('mx-20')}>
-        <Text style={tw.style('font-bold text-3xl text-white')}>Title</Text>
+      <View style={tw.style('mx-2 w-56')}>
+        <Text
+          style={tw.style('font-bold text-base text-white text-center')}
+          numberOfLines={2}>
+          {title}
+        </Text>
       </View>
     </View>
   );

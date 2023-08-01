@@ -6,6 +6,7 @@ export interface ILocaleData {
   textHaveAccount: string;
   textNeedAccount: string;
   textRegisterHere: string;
+  textLoginHere: string;
 
   // Special
   textDarkMode: string;
@@ -76,6 +77,7 @@ const localeData: {[locale: string]: ILocaleData} = {
     textHaveAccount: 'Sudah punya akun?',
     textNeedAccount: 'Belum punya akun?',
     textRegisterHere: 'Daftar disini',
+    textLoginHere: 'Masuk disini',
     textForum: 'Forum',
     textMenu: 'Menu',
     textCreatedBy: 'Dibuat oleh',
@@ -123,6 +125,7 @@ const localeData: {[locale: string]: ILocaleData} = {
     textHaveAccount: 'Already have an account?',
     textNeedAccount: 'Need an account?',
     textRegisterHere: 'Register here',
+    textLoginHere: 'Login here',
     textForum: 'Forum',
     textMenu: 'Menu',
     textCreatedBy: 'Created by',

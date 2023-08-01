@@ -11,6 +11,6 @@ export type asyncRegisterUserAction = {
   email: string;
   password: string;
   textRegisterSuccess?: string;
-  textErrorRegister?: string;
-  routeToLogin?: () => void;
+  textRegisterFailed?: string;
+  routeToLogin?: (location: string) => void;
 };

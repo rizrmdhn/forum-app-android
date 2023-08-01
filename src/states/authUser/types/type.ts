@@ -9,9 +9,9 @@ export type Action = IReceiveAuthUserAction | IUnsetAuthUserAction | AnyAction;
 export type asyncSetAuthUserAction = {
   email: string;
   password: string;
-  navigateTo?: () => void;
+  navigateTo?: (location: string) => void;
   textLoginSuccess?: string;
-  textLoginError?: string;
+  textLoginFailed?: string;
 };
 
 export type asyncUnsetAuthUserAction = {

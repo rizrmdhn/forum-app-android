@@ -1,7 +1,7 @@
 import api from '../../utils/api';
 import {AppDispatch, RootState} from '..';
 import {Alert} from 'react-native';
-import {IComment, IDetailThread} from '../../types/interface';
+import {IComment, IDetailThread, IUser} from '../../types/interface';
 import {
   ICreateCommentThreadDetailAction,
   IDownVoteCommentThreadDetailAction,
@@ -24,6 +24,7 @@ import {
   asyncUpVoteThreadDetailAction,
 } from './types/type';
 import {setIsLoading, unsetIsLoading} from '../isLoading/action';
+import {asyncCheckIfImageContainSvg} from '../isSvg/action';
 
 enum ActionType {
   RECEIVE_THREADS_DETAIL = 'RECEIVE_THREADS_DETAIL',

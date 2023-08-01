@@ -19,24 +19,25 @@ import {
 const api = (() => {
   const baseUrl = 'https://forum-api.dicoding.dev/v1';
 
-  async function _fetchWithAuth(url: string, options: any) {
-    return axios(url, {
-      ...options,
-      headers: {
-        ...options.headers,
-        Authorization: `Bearer ${getAccessToken()}`,
-      },
-    });
-  }
-
   async function putAccessToken(token: string) {
     // localStorage.setItem('accessToken', token);
     await AsyncStorage.setItem('accessToken', token);
   }
 
-  async function getAccessToken() {
-    // return localStorage.getItem('accessToken');
-    return await AsyncStorage.getItem('accessToken');
+  async function getAccessToken(): Promise<string> {
+    const accessToken = await AsyncStorage.getItem('accessToken');
+    return accessToken || '';
+  }
+
+  async function _fetchWithAuth(url: string, options: any) {
+    const accessToken = await getAccessToken();
+    return axios(url, {
+      ...options,
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
   }
 
   async function register({
@@ -70,6 +71,7 @@ const api = (() => {
   async function login({email, password}: {email: string; password: string}) {
     const response = await axios.post(`${baseUrl}/login`, {
       email,
+
       password,
     });
 

@@ -17,6 +17,7 @@ import {IDetailThread, IUser} from '../types/interface';
 import RenderHTML from 'react-native-render-html';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Button, Input} from 'native-base';
+import UserComment from '../components/UserComment';
 
 const {width, height} = Dimensions.get('window');
 
@@ -30,7 +31,7 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
 
   return (
     <View>
-      <DetailThreadHeader navigation={navigation} />
+      <DetailThreadHeader navigation={navigation} title={detailThread.title} />
       <View
         style={tw.style('flex flex-col px-5 py-7 overflow-scroll', {
           'bg-light': !isDarkMode,
@@ -112,7 +113,7 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
         <View>
           <Text
             style={tw.style(
-              'text-start text-lg font-bold mt-5 px-5',
+              'text-lg font-bold mt-5 px-5',
               isDarkMode ? 'text-white' : 'text-black',
             )}>
             Beri Komentar
@@ -120,7 +121,14 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
           {authUser ? (
             <View>
               <View style={tw.style('px-5 mt-2')}>
-                <Input placeholder="Komentar" style={tw.style('px-5 h-20')} />
+                <Input
+                  placeholder="Komentar"
+                  placeholderTextColor={isDarkMode ? '#fff' : '#000'}
+                  color={isDarkMode ? '#fff' : '#000'}
+                  textAlign={'left'}
+                  textAlignVertical="top"
+                  style={tw.style('px-5 h-20')}
+                />
               </View>
               <Button
                 style={tw.style('mt-2 mx-5', {
@@ -128,7 +136,13 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
                   'bg-white text-black border-2 border-dark': isDarkMode,
                 })}
                 onPress={() => console.log('comment')}>
-                <Text style={tw.style('text-white')}>Kirim</Text>
+                <Text
+                  style={tw.style('font-bold text-sm', {
+                    'text-white': !isDarkMode,
+                    'text-black': isDarkMode,
+                  })}>
+                  Kirim
+                </Text>
               </Button>
             </View>
           ) : (
@@ -150,13 +164,19 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
           <View>
             <Text
               style={tw.style(
-                'text-start text-lg font-bold mt-5 px-5',
+                'text-lg font-bold mt-5 px-5',
                 isDarkMode ? 'text-white' : 'text-black',
               )}>
               Komentar ({detailThread.comments.length})
             </Text>
           </View>
-          <View style={tw.style('px-5 mt-2')}></View>
+          <View style={tw.style('px-5 mt-2 h-60')}>
+            <ScrollView style={tw.style('overflow-scroll')}>
+              {detailThread.comments.map((comment, index) => (
+                <UserComment key={index} {...comment} />
+              ))}
+            </ScrollView>
+          </View>
         </View>
       </View>
     </View>

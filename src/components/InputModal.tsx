@@ -1,4 +1,5 @@
 import React from 'react';
+import {Appearance} from 'react-native';
 import {Modal, Input, FormControl, Button, TextArea} from 'native-base';
 import {useDispatch} from 'react-redux';
 import useSelectState from '../hooks/useSelectState';
@@ -6,7 +7,9 @@ import {closeModalActionCreator} from '../states/openModal/action';
 import tw from '../lib/tailwind';
 
 export default function InputModal() {
-  const openModal = useSelectState('openModal');
+  const openModal = useSelectState('openModal') as boolean;
+
+  const isDarkMode = Appearance.getColorScheme() === 'dark';
 
   const dispatch = useDispatch();
 
@@ -16,30 +19,43 @@ export default function InputModal() {
 
   return (
     <Modal isOpen={openModal} onClose={closeModal}>
-      <Modal.Content maxWidth="400px" style={tw.style('dark:bg-dark bg-light')}>
-        <Modal.CloseButton />
-        <Modal.Header style={tw.style('dark:bg-dark bg-light')}>New Thread</Modal.Header>
+      <Modal.Content
+        maxWidth="400px"
+        style={tw.style({
+          'bg-dark': isDarkMode,
+          'bg-light': !isDarkMode,
+        })}>
+        <Modal.CloseButton
+          _icon={{
+            color: isDarkMode ? '#fff' : '#000',
+          }}
+        />
+        <Modal.Header
+          backgroundColor={isDarkMode ? '#222831' : '#EEEEEE'}
+          _text={{color: isDarkMode ? '#fff' : '#000'}}>
+          New Thread
+        </Modal.Header>
         <Modal.Body>
           <FormControl>
-            <FormControl.Label style={tw.style('text-white dark:text-black')}>
+            <FormControl.Label _text={{color: isDarkMode ? '#fff' : '#000'}}>
               Title
             </FormControl.Label>
             <Input />
           </FormControl>
           <FormControl mt="3">
-            <FormControl.Label style={tw.style('text-white dark:text-black')}>
+            <FormControl.Label _text={{color: isDarkMode ? '#fff' : '#000'}}>
               Category
             </FormControl.Label>
             <Input />
           </FormControl>
           <FormControl mt="3">
-            <FormControl.Label style={tw.style('text-white dark:text-black')}>
+            <FormControl.Label _text={{color: isDarkMode ? '#fff' : '#000'}}>
               Content
             </FormControl.Label>
             <TextArea h="100px" autoCompleteType={undefined} />
           </FormControl>
         </Modal.Body>
-        <Modal.Footer style={tw.style('dark:bg-dark bg-light')}>
+        <Modal.Footer backgroundColor={isDarkMode ? '#222831' : '#EEEEEE'}>
           <Button.Group space={2}>
             <Button bgColor={'red.500'} onPress={closeModal}>
               Cancel

@@ -24,19 +24,19 @@ function asyncRegisterUser({
   email,
   password,
   textRegisterSuccess,
-  textErrorRegister,
+  textRegisterFailed,
   routeToLogin,
-}: asyncRegisterUserAction) {
+}: asyncRegisterUserAction): any {
   return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading());
     try {
       await api.register({name, email, password});
 
       Alert.alert('Success', textRegisterSuccess || 'Success');
-      routeToLogin && routeToLogin();
+      routeToLogin && routeToLogin('Login');
     } catch (error: unknown) {
       if (error instanceof Error) {
-        return Alert.alert('Error', textErrorRegister || 'Error');
+        return Alert.alert('Error', textRegisterFailed || 'Error');
       }
     }
     dispatch(unsetIsLoading());

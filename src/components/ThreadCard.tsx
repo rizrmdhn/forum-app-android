@@ -133,7 +133,7 @@ export default function ThreadCard({
         </Box>
         <Box style={tw.style('w-auto flex flex-row justify-between')}>
           <Text
-            style={tw.style('text-dark dark:text-white my-2', {
+            style={tw.style('text-dark dark:text-white my-2 mr-2', {
               'text-black': !isDarkMode,
               'text-white': isDarkMode,
             })}

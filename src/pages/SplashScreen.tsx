@@ -4,14 +4,17 @@ import React, {useEffect} from 'react';
 import tw from '../lib/tailwind';
 import {useDispatch} from 'react-redux';
 import {asyncGetTheme} from '../states/theme/action';
+import {asyncSetIsPreload} from '../states/isPreload/action';
+import {AppDispatch} from '../states';
 
 const {height} = Dimensions.get('window');
 
 export default function SplashScreen({navigation}: {navigation: any}) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(asyncGetTheme());
+    dispatch(asyncSetIsPreload());
     setTimeout(() => {
       navigation.navigate('Default');
     }, 2000);

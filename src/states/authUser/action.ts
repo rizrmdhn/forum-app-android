@@ -34,8 +34,8 @@ function asyncSetAuthUser({
   password,
   navigateTo,
   textLoginSuccess,
-  textLoginError,
-}: asyncSetAuthUserAction) {
+  textLoginFailed,
+}: asyncSetAuthUserAction): any {
   return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading());
 
@@ -44,11 +44,11 @@ function asyncSetAuthUser({
       const authUser: IUser = await api.getOwnProfile();
 
       dispatch(receiveAuthUser(authUser));
-      navigateTo && navigateTo();
+      navigateTo && navigateTo('Thread');
       Alert.alert('Success', textLoginSuccess || 'Login success');
     } catch (error: unknown) {
       if (error instanceof Error) {
-        return Alert.alert('Error', textLoginError || error.message);
+        return Alert.alert('Error', error.message);
       }
     }
 
@@ -56,7 +56,10 @@ function asyncSetAuthUser({
   };
 }
 
-function asyncUnsetAuthUser({textLogoutError, textLogoutSuccess}: asyncUnsetAuthUserAction) {
+function asyncUnsetAuthUser({
+  textLogoutError,
+  textLogoutSuccess,
+}: asyncUnsetAuthUserAction): any {
   return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading());
 
