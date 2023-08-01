@@ -18,6 +18,7 @@ import {Button, Input} from 'native-base';
 import UserComment from '../components/UserComment';
 import useVoteDetailThread from '../hooks/useVoteDetailThread';
 import useVoteComment from '../hooks/useVoteComment';
+import useCreateComment from '../hooks/useCreateComment';
 
 const {width, height} = Dimensions.get('window');
 
@@ -29,6 +30,8 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
     useVoteDetailThread();
 
   const [upVoteComment, downVoteComment, neutralVoteComment] = useVoteComment();
+
+  const [content, onChangeContent, createComment] = useCreateComment();
 
   const isDarkMode = Appearance.getColorScheme() === 'dark';
 
@@ -212,6 +215,9 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
                   textAlign={'left'}
                   textAlignVertical="top"
                   style={tw.style('px-5 h-20')}
+                  value={content}
+                  multiline={true}
+                  onChangeText={onChangeContent}
                 />
               </View>
               <Button
@@ -219,7 +225,7 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
                   'bg-dark text-white': !isDarkMode,
                   'bg-white text-black border-2 border-dark': isDarkMode,
                 })}
-                onPress={() => console.log('comment')}>
+                onPress={() => createComment(detailThread.id)}>
                 <Text
                   style={tw.style('font-bold text-sm', {
                     'text-white': !isDarkMode,
@@ -254,7 +260,7 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
               Komentar ({detailThread.comments.length})
             </Text>
           </View>
-          <View style={tw.style('px-5 mt-2 h-60')}>
+          <View style={tw.style('px-5 mt-2 h-32')}>
             <ScrollView style={tw.style('overflow-scroll')}>
               {detailThread.comments.map((comment, index) => (
                 <UserComment
