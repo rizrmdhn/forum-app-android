@@ -2,12 +2,12 @@ import {
   ActivityIndicator,
   StyleSheet,
   View,
+  Text,
   Appearance,
   Dimensions,
 } from 'react-native';
 import React from 'react';
 import tw from '../lib/tailwind';
-import {BlurView} from '@react-native-community/blur';
 
 const {width, height} = Dimensions.get('window');
 
@@ -17,19 +17,20 @@ export default function LoadingSpinner() {
   return (
     <View
       style={tw.style(
-        'flex flex-row items-center justify-center bg-transparent',
+        'flex flex-col items-center justify-center w-64 h-24',
+        styles.absoluteCenter,
         {
-          width: width,
-          height: height - 160,
+          'bg-light border-2 border-categoryDark rounded': !isDarkMode,
+          'bg-categoryDark border-2 border-light rounded': isDarkMode,
         },
-        styles.absolute,
       )}>
-      <BlurView
-        style={styles.absolute}
-        blurType="light"
-        blurAmount={10}
-        reducedTransparencyFallbackColor="black"
-      />
+      <Text
+        style={tw.style('my-2 font-bold text-xl', {
+          'text-black': !isDarkMode,
+          'text-white': isDarkMode,
+        })}>
+        Loading...
+      </Text>
       <ActivityIndicator
         size="large"
         color={isDarkMode ? tw.color('white') : tw.color('black')}
@@ -39,11 +40,9 @@ export default function LoadingSpinner() {
 }
 
 const styles = StyleSheet.create({
-  absolute: {
+  absoluteCenter: {
     position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
+    top: height / 2.5,
+    left: width / 6,
   },
 });

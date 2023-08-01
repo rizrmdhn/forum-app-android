@@ -2,7 +2,7 @@ import {Alert} from 'react-native';
 import {AppDispatch} from '..';
 import {IUser} from '../../types/interface';
 import api from '../../utils/api';
-import {setIsLoading} from '../isLoading/action';
+import {setIsLoading, unsetIsLoading} from '../isLoading/action';
 import {IReceiveAuthUserAction, IUnsetAuthUserAction} from './types/interface';
 import {asyncSetAuthUserAction, asyncUnsetAuthUserAction} from './types/type';
 
@@ -47,12 +47,13 @@ function asyncSetAuthUser({
       navigateTo && navigateTo('Thread');
       Alert.alert('Success', textLoginSuccess || 'Login success');
     } catch (error: unknown) {
+      dispatch(unsetIsLoading());
       if (error instanceof Error) {
         return Alert.alert('Error', error.message);
       }
     }
 
-    dispatch(setIsLoading());
+    dispatch(unsetIsLoading());
   };
 }
 

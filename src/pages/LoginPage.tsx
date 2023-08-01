@@ -12,10 +12,13 @@ import tw from '../lib/tailwind';
 import {Input} from 'native-base';
 import useLocale from '../hooks/useLocale';
 import useLogin from '../hooks/useLogin';
+import LoadingSpinner from '../components/LoadingSpinner';
+import useSelectState from '../hooks/useSelectState';
 
 const {height} = Dimensions.get('window');
 
 export default function LoginPage({navigation}: {navigation: any}) {
+  const isLoading = useSelectState('isLoading');
   const {textNeedAccount, textRegisterHere} = useLocale();
 
   const [email, onChangeEmail, password, onChangePassword, onSubmit] =
@@ -112,6 +115,7 @@ export default function LoginPage({navigation}: {navigation: any}) {
           </Text>
         </View>
       </View>
+      {isLoading && <LoadingSpinner />}
     </View>
   );
 }
