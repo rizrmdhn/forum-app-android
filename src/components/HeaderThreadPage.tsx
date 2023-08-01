@@ -37,7 +37,11 @@ export default function HeaderThreadPage() {
         'bg-defaultLightHeaders': !isDarkMode,
       })}>
       <Pressable style={tw.style('my-4')} onPress={openCategory}>
-        <MaterialIcons name="filter-list-alt" size={30} color="white" />
+        <MaterialIcons
+          name="filter-list-alt"
+          size={30}
+          color={showCategory ? '#00C2FF' : 'white'}
+        />
       </Pressable>
       <View
         style={tw.style(

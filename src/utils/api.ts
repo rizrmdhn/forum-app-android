@@ -20,7 +20,6 @@ const api = (() => {
   const baseUrl = 'https://forum-api.dicoding.dev/v1';
 
   async function putAccessToken(token: string) {
-    // localStorage.setItem('accessToken', token);
     await AsyncStorage.setItem('accessToken', token);
   }
 

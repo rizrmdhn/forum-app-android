@@ -198,6 +198,13 @@ export default function ThreadCard({
               size={25}
               color={isDarkMode ? 'white' : 'black'}
             />
+            <Text
+              style={tw.style('ml-2 ', {
+                'text-white': isDarkMode,
+                'text-black': !isDarkMode,
+              })}>
+              {totalComments}
+            </Text>
           </View>
         </Box>
         <Box style={tw.style('w-auto flex flex-row justify-between')}>

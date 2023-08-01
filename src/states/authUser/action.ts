@@ -47,9 +47,10 @@ function asyncSetAuthUser({
       navigateTo && navigateTo('Thread');
       Alert.alert('Success', textLoginSuccess || 'Login success');
     } catch (error: unknown) {
-      dispatch(unsetIsLoading());
       if (error instanceof Error) {
-        return Alert.alert('Error', error.message);
+        Alert.alert('Error', textLoginFailed || error.message);
+        dispatch(unsetIsLoading());
+        return;
       }
     }
 

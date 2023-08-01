@@ -18,7 +18,7 @@ export default function AddNewThreadButton() {
     <Pressable
       onPress={openModal}
       style={tw.style(
-        ' bottom-5 right-5 w-10 h-10 flex flex-auto items-center justify-center rounded-full absolute',
+        'bottom-10 right-5 w-10 h-10 flex flex-auto items-center justify-center rounded-full absolute',
         {
           'bg-light': isDarkMode,
           'bg-dark': !isDarkMode,

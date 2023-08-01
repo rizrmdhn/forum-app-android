@@ -19,13 +19,19 @@ import UserComment from '../components/UserComment';
 import useVoteDetailThread from '../hooks/useVoteDetailThread';
 import useVoteComment from '../hooks/useVoteComment';
 import useCreateComment from '../hooks/useCreateComment';
+import moment, {locale} from 'moment';
+import 'moment/locale/id';
+import useLocale from '../hooks/useLocale';
 
 const {width, height} = Dimensions.get('window');
 
 export default function DetailThreadPage({navigation}: {navigation: any}) {
   const detailThread = useSelectState('detailThread') as IDetailThread;
   const authUser = useSelectState('authUser') as IUser | null;
+  const locale = useSelectState('locale') as string;
   const leaderboard = useSelectState('leaderboard') as ILeaderboard[];
+
+  const {textCreatedBy} = useLocale();
 
   const [upVoteDetailThread, downVoteDetailThread, neutralVoteDetailThread] =
     useVoteDetailThread();
@@ -128,7 +134,21 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
             />
           </ScrollView>
         </View>
-        <View style={tw.style('flex flex-row px-5')}>
+        <View style={tw.style('flex flex-row justify-between px-5 mt-2')}>
+          <Text
+            style={tw.style('text-black text-sm', {
+              'text-white': isDarkMode,
+            })}>
+            {moment(detailThread.createdAt).locale(locale).fromNow()}
+          </Text>
+          <Text
+            style={tw.style('text-black text-sm ml-2', {
+              'text-white': isDarkMode,
+            })}>
+            {textCreatedBy} {detailThread.owner.name}
+          </Text>
+        </View>
+        <View style={tw.style('flex flex-row px-5 mt-2')}>
           {isUpVoted ? (
             <Pressable
               style={tw.style('w-20 mt-2 flex flex-row')}
@@ -231,7 +251,7 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
                   color={isDarkMode ? '#fff' : '#000'}
                   textAlign={'left'}
                   textAlignVertical="top"
-                  style={tw.style('px-5 h-20')}
+                  style={tw.style('px-5 h-20 text-base')}
                   value={content}
                   multiline={true}
                   onChangeText={onChangeContent}

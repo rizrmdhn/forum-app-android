@@ -1,10 +1,12 @@
 import {useState} from 'react';
 import {useDispatch} from 'react-redux';
+import {Alert} from 'react-native';
 import useLocale from './useLocale';
 import {asyncRegisterUser} from '../states/user/action';
 
 function useRegister(defaultValue = '') {
-  const {textRegisterSuccess, textRegisterFailed} = useLocale();
+  const {textRegisterSuccess, textRegisterFailed, textPleaseInputCorrectly} =
+    useLocale();
   const dispatch = useDispatch();
 
   const [name, setName] = useState(defaultValue);
@@ -24,16 +26,21 @@ function useRegister(defaultValue = '') {
   };
 
   const onSubmit = ({navigation}: any) => {
-    dispatch(
-      asyncRegisterUser({
-        name,
-        email,
-        password,
-        textRegisterFailed,
-        textRegisterSuccess,
-        routeToLogin: navigation.navigate,
-      }),
-    );
+    if (!name || !email || !password) {
+      Alert.alert('Error', textPleaseInputCorrectly);
+      return;
+    } else {
+      dispatch(
+        asyncRegisterUser({
+          name,
+          email,
+          password,
+          textRegisterFailed,
+          textRegisterSuccess,
+          routeToLogin: navigation.navigate,
+        }),
+      );
+    }
   };
 
   return [

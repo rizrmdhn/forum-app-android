@@ -6,8 +6,8 @@ import {useDispatch} from 'react-redux';
 import {asyncGetTheme} from '../states/theme/action';
 import {asyncSetIsPreload} from '../states/isPreload/action';
 import {AppDispatch} from '../states';
-import {asyncPopulateUsersAndThreads} from '../states/shared/action';
 import {asyncGetLeaderboard} from '../states/leaderboards/action';
+import {asyncGetLocale} from '../states/locale/action';
 
 const {height} = Dimensions.get('window');
 
@@ -16,6 +16,7 @@ export default function SplashScreen({navigation}: {navigation: any}) {
 
   useEffect(() => {
     dispatch(asyncGetTheme());
+    dispatch(asyncGetLocale());
     dispatch(asyncSetIsPreload());
     dispatch(asyncGetLeaderboard({}));
     setTimeout(() => {

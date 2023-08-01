@@ -14,7 +14,7 @@ export default function Leaderboardheader() {
         'bg-defaultLightHeaders': !isDarkMode,
         'bg-defaultDarkHeaders': isDarkMode,
       })}>
-      <Text style={tw.style('text-white font-bold text-sm')}>
+      <Text style={tw.style('text-white font-bold text-lg')}>
         {textLeaderboard}
       </Text>
     </View>

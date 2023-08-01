@@ -13,7 +13,6 @@ import HeaderThreadPage from '../components/HeaderThreadPage';
 import CategoryListMenu from '../components/CategoryListMenu';
 import MenuItem from '../components/MenuItem';
 import InputModal from '../components/InputModal';
-import LoadingSpinner from '../components/LoadingSpinner';
 
 const windowHeight = Dimensions.get('window').height;
 

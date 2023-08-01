@@ -8,6 +8,7 @@ import {AppDispatch} from '../states';
 import {useDispatch} from 'react-redux';
 import {setFilterThreadByCategory} from '../states/filterThreadByCategory/action';
 import useLocale from '../hooks/useLocale';
+import {setShowCategory} from '../states/showCategory/action';
 
 export default function CategoryListMenu() {
   const thread = useSelectState('thread') as IThread[];
@@ -23,8 +24,10 @@ export default function CategoryListMenu() {
   const filterThreadByTitle = (text: string) => {
     if (category === text) {
       dispatch(setFilterThreadByCategory(''));
+      dispatch(setShowCategory(false));
     } else {
       dispatch(setFilterThreadByCategory(text));
+      dispatch(setShowCategory(false));
     }
   };
 

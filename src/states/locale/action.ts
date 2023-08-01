@@ -31,7 +31,7 @@ function asyncGetLocale() {
     try {
       const locale = await AsyncStorage.getItem('locale');
       if (locale) {
-        dispatch(setLocale(JSON.stringify(locale)));
+        dispatch(setLocale(locale));
       }
     } catch (e) {
       dispatch(setLocale('en'));

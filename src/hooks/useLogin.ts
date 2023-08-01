@@ -1,10 +1,12 @@
 import {useState} from 'react';
+import {Alert} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {asyncSetAuthUser} from '../states/authUser/action';
 import useLocale from './useLocale';
 
 function useLogin(defaultValue = '') {
-  const {textLoginSuccess, textLoginFailed} = useLocale();
+  const {textLoginSuccess, textLoginFailed, textPleaseInputCorrectly} =
+    useLocale();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState(defaultValue);
@@ -19,15 +21,20 @@ function useLogin(defaultValue = '') {
   };
 
   const onSubmit = ({navigation}: any) => {
-    dispatch(
-      asyncSetAuthUser({
-        email,
-        password,
-        textLoginFailed,
-        textLoginSuccess,
-        navigateTo: navigation.navigate,
-      }),
-    );
+    if (!email || !password) {
+      Alert.alert('Error', textPleaseInputCorrectly);
+      return;
+    } else {
+      dispatch(
+        asyncSetAuthUser({
+          email,
+          password,
+          textLoginFailed,
+          textLoginSuccess,
+          navigateTo: navigation.navigate,
+        }),
+      );
+    }
   };
 
   return [email, onChangeEmail, password, onChangePassword, onSubmit];

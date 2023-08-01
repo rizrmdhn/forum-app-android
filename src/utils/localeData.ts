@@ -40,6 +40,8 @@ export interface ILocaleData {
   textErrorUpVote: string;
   textErrorDownVote: string;
   textErrorRemoveVote: string;
+  textErrorEmailAndPasswordIsNeeded: string;
+  textPleaseInputCorrectly: string;
 
   // For Success
   textSuccess: string;
@@ -117,6 +119,8 @@ const localeData: {[locale: string]: ILocaleData} = {
     textRegisterFailed: 'Register gagal',
     textRegisterSuccess: 'Register berhasil',
     textAddThread: 'Tambah Thread',
+    textErrorEmailAndPasswordIsNeeded: 'Email dan kata sandi dibutuhkan',
+    textPleaseInputCorrectly: 'Mohon masukkan dengan benar',
   },
   en: {
     textLogin: 'Login',
@@ -165,6 +169,8 @@ const localeData: {[locale: string]: ILocaleData} = {
     textRegisterFailed: 'Register failed',
     textRegisterSuccess: 'Register success',
     textAddThread: 'Add Thread',
+    textErrorEmailAndPasswordIsNeeded: 'Email and password is needed',
+    textPleaseInputCorrectly: 'Please input correctly',
   },
 };
 

@@ -28,17 +28,29 @@ function App(): JSX.Element {
         <Provider store={store}>
           <NavigationContainer>
             <Stack.Navigator initialRouteName="Splash">
-              <Stack.Screen name="Splash" component={SplashScreen} options={{headerShown: false}} />
-              <Stack.Screen name="Default" component={DefaultPage} options={{headerShown: false}} />
+              <Stack.Screen
+                name="Splash"
+                component={SplashScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="Default"
+                component={DefaultPage}
+                options={{headerShown: false}}
+              />
               <Stack.Screen
                 name="Leaderboard"
                 component={LeaderboardPage}
                 options={{headerShown: true}}
               />
               <Stack.Screen name="DetailThread" options={{headerShown: false}}>
-                {props => <DetailThreadPage {...props} threadId={props.route.params?.threadId} />}
+                {props => <DetailThreadPage {...props} />}
               </Stack.Screen>
-              <Stack.Screen name="Login" component={LoginPage} options={{headerShown: false}} />
+              <Stack.Screen
+                name="Login"
+                component={LoginPage}
+                options={{headerShown: false}}
+              />
               <Stack.Screen
                 name="Register"
                 component={RegisterPage}

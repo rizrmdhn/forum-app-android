@@ -60,7 +60,7 @@ export default function UserComment({
   };
 
   return (
-    <View style={tw.style('flex flex-col my-2 h-24')}>
+    <View style={tw.style('flex flex-col my-4 h-24')}>
       <View style={tw.style('flex flex-row justify-between')}>
         <View style={tw.style('flex flex-row items-center')}>
           <View style={tw.style('overflow-hidden rounded-2xl')}>
