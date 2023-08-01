@@ -11,7 +11,6 @@ import React from 'react';
 import tw from '../lib/tailwind';
 import RenderHTML from 'react-native-render-html';
 import {IUser} from '../types/interface';
-import {SvgUri} from 'react-native-svg';
 import moment from 'moment';
 import 'moment/locale/id';
 import useSelectState from '../hooks/useSelectState';
@@ -22,16 +21,33 @@ export default function UserComment({
   createdAt,
   upVotesBy,
   downVotesBy,
+  handleUpVoteComment,
+  handleDownVoteComment,
 }: {
   content: string;
   owner: IUser;
   createdAt: string;
   upVotesBy: any;
   downVotesBy: any;
+  handleUpVoteComment: (isCommentUpVoted: boolean) => void;
+  handleDownVoteComment: (isDownVoted: boolean) => void;
 }) {
   const locale = useSelectState('locale') as string;
+  const authUser = useSelectState('authUser') as IUser;
 
   const isDarkMode = Appearance.getColorScheme() === 'dark';
+
+  const isCommentUpVoted = upVotesBy.includes(authUser.id);
+
+  const isCommentDownVoted = downVotesBy.includes(authUser.id);
+
+  const UpVoteComment = () => {
+    handleUpVoteComment(isCommentUpVoted);
+  };
+
+  const DownVoteComment = () => {
+    handleDownVoteComment(isCommentDownVoted);
+  };
 
   return (
     <View style={tw.style('flex flex-col my-2')}>
@@ -72,38 +88,76 @@ export default function UserComment({
         />
       </View>
       <View style={tw.style('flex flex-row')}>
-        <Pressable
-          style={tw.style('w-20 mt-2 flex flex-row')}
-          onPress={() => console.log('upvoted')}>
-          <MaterialIcons
-            name="thumb-up-off-alt"
-            size={25}
-            color={isDarkMode ? 'white' : 'black'}
-          />
-          <Text
-            style={tw.style('ml-2 ', {
-              'text-white': isDarkMode,
-              'text-black': !isDarkMode,
-            })}>
-            {upVotesBy.length}
-          </Text>
-        </Pressable>
-        <Pressable
-          style={tw.style('w-20 mt-2 flex flex-row')}
-          onPress={() => console.log('downvoted')}>
-          <MaterialIcons
-            name="thumb-down-off-alt"
-            size={25}
-            color={isDarkMode ? 'white' : 'black'}
-          />
-          <Text
-            style={tw.style('ml-2 ', {
-              'text-white': isDarkMode,
-              'text-black': !isDarkMode,
-            })}>
-            {downVotesBy.length}
-          </Text>
-        </Pressable>
+        {isCommentUpVoted ? (
+          <Pressable
+            style={tw.style('w-20 mt-2 flex flex-row')}
+            onPress={UpVoteComment}>
+            <MaterialIcons
+              name="thumb-up-alt"
+              size={25}
+              color={isDarkMode ? 'white' : 'black'}
+            />
+            <Text
+              style={tw.style('ml-2 ', {
+                'text-white': isDarkMode,
+                'text-black': !isDarkMode,
+              })}>
+              {upVotesBy.length}
+            </Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            style={tw.style('w-20 mt-2 flex flex-row')}
+            onPress={UpVoteComment}>
+            <MaterialIcons
+              name="thumb-up-off-alt"
+              size={25}
+              color={isDarkMode ? 'white' : 'black'}
+            />
+            <Text
+              style={tw.style('ml-2 ', {
+                'text-white': isDarkMode,
+                'text-black': !isDarkMode,
+              })}>
+              {upVotesBy.length}
+            </Text>
+          </Pressable>
+        )}
+        {isCommentDownVoted ? (
+          <Pressable
+            style={tw.style('w-20 mt-2 flex flex-row')}
+            onPress={DownVoteComment}>
+            <MaterialIcons
+              name="thumb-down-alt"
+              size={25}
+              color={isDarkMode ? 'white' : 'black'}
+            />
+            <Text
+              style={tw.style('ml-2 ', {
+                'text-white': isDarkMode,
+                'text-black': !isDarkMode,
+              })}>
+              {downVotesBy.length}
+            </Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            style={tw.style('w-20 mt-2 flex flex-row')}
+            onPress={DownVoteComment}>
+            <MaterialIcons
+              name="thumb-down-off-alt"
+              size={25}
+              color={isDarkMode ? 'white' : 'black'}
+            />
+            <Text
+              style={tw.style('ml-2 ', {
+                'text-white': isDarkMode,
+                'text-black': !isDarkMode,
+              })}>
+              {downVotesBy.length}
+            </Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );

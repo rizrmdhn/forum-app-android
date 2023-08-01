@@ -11,14 +11,13 @@ import React from 'react';
 import tw from '../lib/tailwind';
 import DetailThreadHeader from '../components/DetailThreadHeader';
 import useSelectState from '../hooks/useSelectState';
-import {AppDispatch} from '../states';
-import {useDispatch} from 'react-redux';
 import {IDetailThread, IUser} from '../types/interface';
 import RenderHTML from 'react-native-render-html';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Button, Input} from 'native-base';
 import UserComment from '../components/UserComment';
 import useVoteDetailThread from '../hooks/useVoteDetailThread';
+import useVoteComment from '../hooks/useVoteComment';
 
 const {width, height} = Dimensions.get('window');
 
@@ -29,7 +28,7 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
   const [upVoteDetailThread, downVoteDetailThread, neutralVoteDetailThread] =
     useVoteDetailThread();
 
-  const dispatch = useDispatch<AppDispatch>();
+  const [upVoteComment, downVoteComment, neutralVoteComment] = useVoteComment();
 
   const isDarkMode = Appearance.getColorScheme() === 'dark';
 
@@ -49,6 +48,30 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
       neutralVoteDetailThread(id);
     } else {
       downVoteDetailThread(id);
+    }
+  };
+
+  const handleUpVoteComment = (
+    isCommentUpVoted: boolean,
+    commentId: string,
+    threadId: string,
+  ) => {
+    if (isCommentUpVoted) {
+      neutralVoteComment(commentId, threadId);
+    } else {
+      upVoteComment(commentId, threadId);
+    }
+  };
+
+  const handleDownVoteComment = (
+    isCommentDownVoted: boolean,
+    commentId: string,
+    threadId: string,
+  ) => {
+    if (isCommentDownVoted) {
+      neutralVoteComment(commentId, threadId);
+    } else {
+      downVoteComment(commentId, threadId);
     }
   };
 
@@ -234,7 +257,24 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
           <View style={tw.style('px-5 mt-2 h-60')}>
             <ScrollView style={tw.style('overflow-scroll')}>
               {detailThread.comments.map((comment, index) => (
-                <UserComment key={index} {...comment} />
+                <UserComment
+                  key={index}
+                  {...comment}
+                  handleUpVoteComment={isCommentUpVoted =>
+                    handleUpVoteComment(
+                      isCommentUpVoted,
+                      comment.id,
+                      detailThread.id,
+                    )
+                  }
+                  handleDownVoteComment={isCommentDownVoted =>
+                    handleDownVoteComment(
+                      isCommentDownVoted,
+                      comment.id,
+                      detailThread.id,
+                    )
+                  }
+                />
               ))}
             </ScrollView>
           </View>
