@@ -18,7 +18,7 @@ const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   threadCardContainer: {
-    height: windowHeight - 180,
+    height: windowHeight - 160,
   },
 });
 

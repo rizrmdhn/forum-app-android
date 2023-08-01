@@ -218,6 +218,6 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
 
 const styles = StyleSheet.create({
   menuContainer: {
-    height: height - 100,
+    height: height - 80,
   },
 });

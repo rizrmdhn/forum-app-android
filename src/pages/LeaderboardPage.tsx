@@ -21,7 +21,7 @@ const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   leaderboardUserCardContainer: {
-    height: windowHeight - 180,
+    height: windowHeight - 160,
   },
 });
 
