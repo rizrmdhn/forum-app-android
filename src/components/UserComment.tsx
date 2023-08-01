@@ -14,6 +14,7 @@ import {IUser} from '../types/interface';
 import moment from 'moment';
 import 'moment/locale/id';
 import useSelectState from '../hooks/useSelectState';
+import {SvgUri} from 'react-native-svg';
 
 export default function UserComment({
   content,
@@ -21,6 +22,7 @@ export default function UserComment({
   createdAt,
   upVotesBy,
   downVotesBy,
+  isSvg,
   handleUpVoteComment,
   handleDownVoteComment,
 }: {
@@ -29,6 +31,7 @@ export default function UserComment({
   createdAt: string;
   upVotesBy: any;
   downVotesBy: any;
+  isSvg: any;
   handleUpVoteComment: (isCommentUpVoted: boolean) => void;
   handleDownVoteComment: (isDownVoted: boolean) => void;
 }) {
@@ -61,13 +64,16 @@ export default function UserComment({
       <View style={tw.style('flex flex-row justify-between')}>
         <View style={tw.style('flex flex-row items-center')}>
           <View style={tw.style('overflow-hidden rounded-2xl')}>
-            <Image
-              style={tw.style('w-6 h-6 rounded-2xl')}
-              source={{
-                uri: owner.avatar,
-              }}
-            />
-            {/* <SvgUri width={30} height={30} uri={owner.avatar} /> */}
+            {isSvg ? (
+              <SvgUri width={24} height={24} uri={owner.avatar} />
+            ) : (
+              <Image
+                style={tw.style('w-6 h-6 rounded-2xl')}
+                source={{
+                  uri: owner.avatar,
+                }}
+              />
+            )}
           </View>
           <Text
             style={tw.style('mx-2', {

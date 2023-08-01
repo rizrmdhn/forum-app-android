@@ -11,7 +11,7 @@ import React from 'react';
 import tw from '../lib/tailwind';
 import DetailThreadHeader from '../components/DetailThreadHeader';
 import useSelectState from '../hooks/useSelectState';
-import {IDetailThread, IUser} from '../types/interface';
+import {IDetailThread, ILeaderboard, IUser} from '../types/interface';
 import RenderHTML from 'react-native-render-html';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Button, Input} from 'native-base';
@@ -25,6 +25,7 @@ const {width, height} = Dimensions.get('window');
 export default function DetailThreadPage({navigation}: {navigation: any}) {
   const detailThread = useSelectState('detailThread') as IDetailThread;
   const authUser = useSelectState('authUser') as IUser | null;
+  const leaderboard = useSelectState('leaderboard') as ILeaderboard[];
 
   const [upVoteDetailThread, downVoteDetailThread, neutralVoteDetailThread] =
     useVoteDetailThread();
@@ -85,6 +86,14 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
       downVoteComment(commentId, threadId);
     }
   };
+
+  // get the isSvg from leaderboard and combine it with detailThread.comments to get the isSvg of each comment
+  const commentsWithIsSvg = detailThread.comments.map(comment => {
+    const isSvg = leaderboard.find(
+      leaderboard => leaderboard.user.id === comment.owner.id,
+    )?.isSvg;
+    return {...comment, isSvg};
+  });
 
   return (
     <View>
@@ -270,7 +279,7 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
           </View>
           <View style={tw.style('px-5 mt-2 h-32')}>
             <ScrollView style={tw.style('overflow-scroll')}>
-              {detailThread.comments.map((comment, index) => (
+              {commentsWithIsSvg.map((comment, index) => (
                 <UserComment
                   key={index}
                   {...comment}

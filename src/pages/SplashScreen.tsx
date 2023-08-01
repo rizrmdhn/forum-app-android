@@ -7,6 +7,7 @@ import {asyncGetTheme} from '../states/theme/action';
 import {asyncSetIsPreload} from '../states/isPreload/action';
 import {AppDispatch} from '../states';
 import {asyncPopulateUsersAndThreads} from '../states/shared/action';
+import {asyncGetLeaderboard} from '../states/leaderboards/action';
 
 const {height} = Dimensions.get('window');
 
@@ -16,6 +17,7 @@ export default function SplashScreen({navigation}: {navigation: any}) {
   useEffect(() => {
     dispatch(asyncGetTheme());
     dispatch(asyncSetIsPreload());
+    dispatch(asyncGetLeaderboard({}));
     setTimeout(() => {
       navigation.navigate('Default');
     }, 2000);

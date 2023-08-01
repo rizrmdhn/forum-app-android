@@ -51,10 +51,9 @@ export default function HeaderThreadPage() {
           placeholderTextColor={'white'}
           style={tw.style('text-white text-sm')}
           onChangeText={text => onSearchByTitle({text})}
+          _focus={{backgroundColor: 'transparent'}}
         />
-        <Pressable
-          style={tw.style('my-2 mr-2')}
-          onPress={() => console.log('item search')}>
+        <Pressable style={tw.style('my-2 mr-2')}>
           <MaterialIcons name="search" size={30} color="white" />
         </Pressable>
       </View>
