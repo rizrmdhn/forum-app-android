@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 import {asyncGetTheme} from '../states/theme/action';
 import {asyncSetIsPreload} from '../states/isPreload/action';
 import {AppDispatch} from '../states';
+import {asyncPopulateUsersAndThreads} from '../states/shared/action';
 
 const {height} = Dimensions.get('window');
 

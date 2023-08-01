@@ -17,7 +17,7 @@ function asyncPopulateUsersAndThreads() {
       dispatch(receiveThread(threads));
     } catch (error: unknown) {
       if (error instanceof Error) {
-        return Alert.alert('Error', 'Error');
+        return Alert.alert('Error', error.message);
       }
     }
     dispatch(unsetIsLoading());
@@ -33,7 +33,7 @@ function asyncGetAllUsers() {
       dispatch(receiveUser(users));
     } catch (error: unknown) {
       if (error instanceof Error) {
-        return Alert.alert('Error', 'Error');
+        return Alert.alert('Error', error.message);
       }
     }
     dispatch(unsetIsLoading());

@@ -18,6 +18,7 @@ export default function CategoryListMenu() {
   const dispatch = useDispatch<AppDispatch>();
 
   const isDarkMode = Appearance.getColorScheme() === 'dark';
+  const uniqueCategory = [] as string[];
 
   const filterThreadByTitle = (text: string) => {
     if (category === text) {
@@ -41,18 +42,21 @@ export default function CategoryListMenu() {
       </View>
       <View style={tw.style('flex flex-row flex-wrap p-2')}>
         {thread.map(threads => {
-          return (
-            <Pressable
-              key={threads.category}
-              onPress={() => filterThreadByTitle(threads.category)}
-              style={tw.style(
-                'self-start p-1 ml-3 rounded my-2 bg-light items-baseline',
-              )}>
-              <Text style={tw.style('text-black dark:text-white')}>
-                #{threads.category}
-              </Text>
-            </Pressable>
-          );
+          if (!uniqueCategory.includes(threads.category)) {
+            uniqueCategory.push(threads.category);
+            return (
+              <Pressable
+                key={threads.id}
+                onPress={() => filterThreadByTitle(threads.category)}
+                style={tw.style(
+                  'self-start p-1 ml-3 rounded my-2 bg-light items-baseline',
+                )}>
+                <Text style={tw.style('text-black dark:text-white')}>
+                  #{threads.category}
+                </Text>
+              </Pressable>
+            );
+          }
         })}
       </View>
     </Animatable.View>

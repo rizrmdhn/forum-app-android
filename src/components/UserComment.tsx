@@ -33,13 +33,20 @@ export default function UserComment({
   handleDownVoteComment: (isDownVoted: boolean) => void;
 }) {
   const locale = useSelectState('locale') as string;
-  const authUser = useSelectState('authUser') as IUser;
+  const authUser = useSelectState('authUser') as IUser | null;
 
   const isDarkMode = Appearance.getColorScheme() === 'dark';
 
-  const isCommentUpVoted = upVotesBy.includes(authUser.id);
+  let isCommentUpVoted: boolean;
+  let isCommentDownVoted: boolean;
 
-  const isCommentDownVoted = downVotesBy.includes(authUser.id);
+  if (!authUser) {
+    isCommentUpVoted = false;
+    isCommentDownVoted = false;
+  } else {
+    isCommentUpVoted = upVotesBy.includes(authUser.id);
+    isCommentDownVoted = downVotesBy.includes(authUser.id);
+  }
 
   const UpVoteComment = () => {
     handleUpVoteComment(isCommentUpVoted);

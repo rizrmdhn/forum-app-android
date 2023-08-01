@@ -26,7 +26,7 @@ export default function ThreadCard({
   totalComments,
   navigation,
 }: IThread & {navigation: any}) {
-  const authUser = useSelectState('authUser') as IUser;
+  const authUser = useSelectState('authUser') as IUser | null;
   const user = useSelectState('user') as IUser[];
   const locale = useSelectState('locale') as string;
 
@@ -43,8 +43,16 @@ export default function ThreadCard({
   const creator = user.find((u: any) => u.id === ownerId);
   const creatorName = creator ? creator.name : '';
 
-  const isUpVoted = upVotesBy.includes(authUser.id);
-  const isDownVoted = downVotesBy.includes(authUser.id);
+  let isUpVoted: boolean;
+  let isDownVoted: boolean;
+
+  if (!authUser) {
+    isUpVoted = false;
+    isDownVoted = false;
+  } else {
+    isUpVoted = upVotesBy.includes(authUser.id);
+    isDownVoted = downVotesBy.includes(authUser.id);
+  }
 
   const onGetDetailThread = () => {
     dispatch(asyncGetThreadDetail({threadId: id}));

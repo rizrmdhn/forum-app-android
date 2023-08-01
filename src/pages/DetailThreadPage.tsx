@@ -24,7 +24,7 @@ const {width, height} = Dimensions.get('window');
 
 export default function DetailThreadPage({navigation}: {navigation: any}) {
   const detailThread = useSelectState('detailThread') as IDetailThread;
-  const authUser = useSelectState('authUser') as IUser;
+  const authUser = useSelectState('authUser') as IUser | null;
 
   const [upVoteDetailThread, downVoteDetailThread, neutralVoteDetailThread] =
     useVoteDetailThread();
@@ -35,8 +35,16 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
 
   const isDarkMode = Appearance.getColorScheme() === 'dark';
 
-  const isUpVoted = detailThread.upVotesBy.includes(authUser.id);
-  const isDownVoted = detailThread.downVotesBy.includes(authUser.id);
+  let isUpVoted: boolean;
+  let isDownVoted: boolean;
+
+  if (!authUser) {
+    isUpVoted = false;
+    isDownVoted = false;
+  } else {
+    isUpVoted = detailThread.upVotesBy.includes(authUser.id);
+    isDownVoted = detailThread.downVotesBy.includes(authUser.id);
+  }
 
   const handleUpVoteThread = (id: string) => {
     if (isUpVoted) {
