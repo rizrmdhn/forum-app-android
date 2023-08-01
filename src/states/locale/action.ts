@@ -15,7 +15,7 @@ function setLocale(locale: string): ISetLocaleAction {
   };
 }
 
-function asyncSetLocale(locale: string) {
+function asyncSetLocale(locale: string): any {
   return async (dispatch: AppDispatch) => {
     try {
       await AsyncStorage.setItem('locale', locale);
@@ -31,7 +31,7 @@ function asyncGetLocale() {
     try {
       const locale = await AsyncStorage.getItem('locale');
       if (locale) {
-        dispatch(setLocale(locale));
+        dispatch(setLocale(JSON.stringify(locale)));
       }
     } catch (e) {
       dispatch(setLocale('en'));

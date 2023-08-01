@@ -1,8 +1,11 @@
 import {StyleSheet, Text, View, Appearance} from 'react-native';
 import React from 'react';
 import tw from '../lib/tailwind';
+import useLocale from '../hooks/useLocale';
 
 export default function Leaderboardheader() {
+  const {textLeaderboard} = useLocale();
+
   const isDarkMode = Appearance.getColorScheme() === 'dark';
 
   return (
@@ -12,7 +15,7 @@ export default function Leaderboardheader() {
         'bg-defaultDarkHeaders': isDarkMode,
       })}>
       <Text style={tw.style('text-white font-bold text-sm')}>
-        Klasemen Pengguna Aktif
+        {textLeaderboard}
       </Text>
     </View>
   );

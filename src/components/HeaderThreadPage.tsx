@@ -7,9 +7,12 @@ import useSelectState from '../hooks/useSelectState';
 import {setShowCategory} from '../states/showCategory/action';
 import {useDispatch} from 'react-redux';
 import {setFilterThreadByTitle} from '../states/filterThreadByTitle/action';
+import useLocale from '../hooks/useLocale';
 
 export default function HeaderThreadPage() {
   const showCategory = useSelectState('showCategory');
+
+  const {textSearchThread} = useLocale();
 
   const dispatch = useDispatch();
 
@@ -37,17 +40,21 @@ export default function HeaderThreadPage() {
         <MaterialIcons name="filter-list-alt" size={30} color="white" />
       </Pressable>
       <View
-        style={tw.style('flex flex-row h-12 my-2 rounded-full bg-threadCard w-72 justify-between')}>
+        style={tw.style(
+          'flex flex-row h-12 my-2 rounded-full bg-threadCard w-72 justify-between',
+        )}>
         <Input
           borderWidth={0}
-          placeholder="Search Thread ..."
+          placeholder={textSearchThread}
           w="85%"
           rounded={'full'}
           placeholderTextColor={'white'}
           style={tw.style('text-white text-sm')}
           onChangeText={text => onSearchByTitle({text})}
         />
-        <Pressable style={tw.style('my-2 mr-2')} onPress={() => console.log('item search')}>
+        <Pressable
+          style={tw.style('my-2 mr-2')}
+          onPress={() => console.log('item search')}>
           <MaterialIcons name="search" size={30} color="white" />
         </Pressable>
       </View>

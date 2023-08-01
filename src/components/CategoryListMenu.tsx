@@ -7,10 +7,13 @@ import useSelectState from '../hooks/useSelectState';
 import {AppDispatch} from '../states';
 import {useDispatch} from 'react-redux';
 import {setFilterThreadByCategory} from '../states/filterThreadByCategory/action';
+import useLocale from '../hooks/useLocale';
 
 export default function CategoryListMenu() {
   const thread = useSelectState('thread') as IThread[];
   const category = useSelectState('category');
+
+  const {textCategoryList} = useLocale();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -32,7 +35,9 @@ export default function CategoryListMenu() {
         'bg-defaultDarkHeaders': isDarkMode,
       })}>
       <View style={tw.style('flex flex-col items-center')}>
-        <Text style={tw.style('text-white dark:text-white')}>Kategory List</Text>
+        <Text style={tw.style('text-white dark:text-white')}>
+          {textCategoryList}
+        </Text>
       </View>
       <View style={tw.style('flex flex-row flex-wrap p-2')}>
         {thread.map(threads => {
@@ -40,8 +45,12 @@ export default function CategoryListMenu() {
             <Pressable
               key={threads.category}
               onPress={() => filterThreadByTitle(threads.category)}
-              style={tw.style('self-start p-1 ml-3 rounded my-2 bg-light items-baseline')}>
-              <Text style={tw.style('text-black dark:text-white')}>#{threads.category}</Text>
+              style={tw.style(
+                'self-start p-1 ml-3 rounded my-2 bg-light items-baseline',
+              )}>
+              <Text style={tw.style('text-black dark:text-white')}>
+                #{threads.category}
+              </Text>
             </Pressable>
           );
         })}

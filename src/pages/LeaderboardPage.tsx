@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, Dimensions, ScrollView, Appearance} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  ScrollView,
+  Appearance,
+} from 'react-native';
 import {useEffect} from 'react';
 import Leaderboardheader from '../components/Leaderboardheader';
 import tw from '../lib/tailwind';
@@ -8,6 +15,7 @@ import {AppDispatch} from '../states';
 import {asyncGetLeaderboard} from '../states/leaderboards/action';
 import UserCard from '../components/UserCard';
 import {ILeaderboard} from '../types/interface';
+import useLocale from '../hooks/useLocale';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -19,6 +27,8 @@ const styles = StyleSheet.create({
 
 export default function LeaderboardPage() {
   const leaderboard = useSelectState('leaderboard') as ILeaderboard[];
+
+  const {textUser, textScore} = useLocale();
 
   const isDarkMode = Appearance.getColorScheme() === 'dark';
 
@@ -56,7 +66,7 @@ export default function LeaderboardPage() {
               'text-black ': !isDarkMode,
               'text-white': isDarkMode,
             })}>
-            Pengguna
+            {textUser}
           </Text>
         </View>
         <View style={tw.style('mx-20')}>
@@ -65,7 +75,7 @@ export default function LeaderboardPage() {
               'text-black ': !isDarkMode,
               'text-white': isDarkMode,
             })}>
-            Skor
+            {textScore}
           </Text>
         </View>
       </View>

@@ -8,17 +8,16 @@ import {asyncGetTheme} from '../states/theme/action';
 const {height} = Dimensions.get('window');
 
 export default function SplashScreen({navigation}: {navigation: any}) {
-  const isDarkMode = Appearance.getColorScheme() === 'dark';
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(asyncGetTheme());
-
     setTimeout(() => {
       navigation.navigate('Default');
     }, 2000);
-  }, []);
+  }, [dispatch]);
+
+  const isDarkMode = Appearance.getColorScheme() === 'dark';
 
   return (
     <View

@@ -23,6 +23,7 @@ const {width, height} = Dimensions.get('window');
 export default function DetailThreadPage({navigation}: {navigation: any}) {
   const detailThread = useSelectState('detailThread') as IDetailThread;
   const authUser = useSelectState('authUser') as IUser;
+
   const dispatch = useDispatch<AppDispatch>();
 
   const isDarkMode = Appearance.getColorScheme() === 'dark';

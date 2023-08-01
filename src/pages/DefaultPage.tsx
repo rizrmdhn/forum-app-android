@@ -9,10 +9,13 @@ import {AppDispatch} from '../states';
 import {useDispatch} from 'react-redux';
 import {asyncSetIsPreload} from '../states/isPreload/action';
 import {asyncGetTheme} from '../states/theme/action';
+import useLocale from '../hooks/useLocale';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export default function DefaultPage() {
+  const {textMenu, textForum, textLeaderboardMenu} = useLocale();
+
   const dispatch = useDispatch<AppDispatch>();
 
   const isDarkMode = Appearance.getColorScheme() === 'dark';
@@ -32,24 +35,30 @@ export default function DefaultPage() {
         name="Leaderboard"
         component={LeaderboardPage}
         options={{
-          tabBarLabel: 'Leaderboard',
-          tabBarIcon: ({color}) => <MaterialIcons name="leaderboard" color={color} size={26} />,
+          tabBarLabel: textLeaderboardMenu,
+          tabBarIcon: ({color}) => (
+            <MaterialIcons name="leaderboard" color={color} size={26} />
+          ),
         }}
       />
       <Tab.Screen
         name="Thread"
         component={ThreadPage}
         options={{
-          tabBarLabel: 'Forum',
-          tabBarIcon: ({color}) => <MaterialIcons name="forum" color={color} size={26} />,
+          tabBarLabel: textForum,
+          tabBarIcon: ({color}) => (
+            <MaterialIcons name="forum" color={color} size={26} />
+          ),
         }}
       />
       <Tab.Screen
         name="Menu"
         component={MenuPage}
         options={{
-          tabBarLabel: 'Menu',
-          tabBarIcon: ({color}) => <MaterialIcons name="menu" color={color} size={26} />,
+          tabBarLabel: textMenu,
+          tabBarIcon: ({color}) => (
+            <MaterialIcons name="menu" color={color} size={26} />
+          ),
         }}
       />
     </Tab.Navigator>

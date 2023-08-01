@@ -12,11 +12,16 @@ import tw from '../lib/tailwind';
 import useSelectState from '../hooks/useSelectState';
 import {useDispatch} from 'react-redux';
 import {asyncGetTheme, asyncSetTheme} from '../states/theme/action';
+import useLocale from '../hooks/useLocale';
+import {asyncSetLocale} from '../states/locale/action';
 
 const {height} = Dimensions.get('window');
 
 export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
   const authUser = useSelectState('authUser');
+  const locale = useSelectState('locale');
+
+  const {textLogin, textLogout, textDarkMode, textLightMode} = useLocale();
 
   const isDarkMode = Appearance.getColorScheme() === 'dark';
 
@@ -29,6 +34,10 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
   const changeTheme = () => {
     Appearance.setColorScheme(isDarkMode ? 'light' : 'dark');
     dispatch(asyncSetTheme(isDarkMode ? 'light' : 'dark'));
+  };
+
+  const changeLanguage = () => {
+    dispatch(asyncSetLocale(locale === 'en' ? 'id' : 'en'));
   };
 
   useEffect(() => {
@@ -51,7 +60,7 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
         )}
         onPress={changeTheme}>
         <MaterialIcons
-          name="bedtime"
+          name={isDarkMode ? 'sunny' : 'bedtime'}
           size={30}
           style={tw.style('mx-10', {
             'text-black': !isDarkMode,
@@ -63,7 +72,7 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
             'text-black': !isDarkMode,
             'text-white': isDarkMode,
           })}>
-          Dark Mode
+          {isDarkMode ? textLightMode : textDarkMode}
         </Text>
       </Pressable>
       <Pressable
@@ -73,7 +82,8 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
             'bg-threadCard': !isDarkMode,
             'bg-threadCardDark': isDarkMode,
           },
-        )}>
+        )}
+        onPress={changeLanguage}>
         <MaterialIcons
           name="g-translate"
           size={30}
@@ -87,7 +97,7 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
             'text-black': !isDarkMode,
             'text-white': isDarkMode,
           })}>
-          Bahasa
+          {locale === 'en' ? 'Bahasa' : 'English'}
         </Text>
       </Pressable>
       {authUser ? (
@@ -112,7 +122,7 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
               'text-black': !isDarkMode,
               'text-white': isDarkMode,
             })}>
-            Logout
+            {textLogout}
           </Text>
         </Pressable>
       ) : (
@@ -138,7 +148,7 @@ export default function MenuPage({navigation}: {navigation: any}): JSX.Element {
               'text-black': !isDarkMode,
               'text-white': isDarkMode,
             })}>
-            Login
+            {textLogin}
           </Text>
         </Pressable>
       )}

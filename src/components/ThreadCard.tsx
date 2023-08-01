@@ -1,6 +1,6 @@
 import {VStack, Box, Text, View} from 'native-base';
 import React from 'react';
-import {IThread} from '../types/interface';
+import {IThread, IUser} from '../types/interface';
 import tw from '../lib/tailwind';
 import {Pressable, Appearance, useWindowDimensions} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -8,6 +8,10 @@ import RenderHtml from 'react-native-render-html';
 import {useDispatch} from 'react-redux';
 import {AppDispatch} from '../states';
 import {asyncGetThreadDetail} from '../states/detailThread/action';
+import moment from 'moment';
+import 'moment/locale/id';
+import useSelectState from '../hooks/useSelectState';
+import useLocale from '../hooks/useLocale';
 
 export default function ThreadCard({
   id,
@@ -21,10 +25,19 @@ export default function ThreadCard({
   totalComments,
   navigation,
 }: IThread & {navigation: any}) {
+  const user = useSelectState('user') as IUser[];
+  const locale = useSelectState('locale') as string;
+
+  const {textCreatedBy} = useLocale();
+
   const isDarkMode = Appearance.getColorScheme() === 'dark';
+
   const {width} = useWindowDimensions();
 
   const dispatch = useDispatch<AppDispatch>();
+
+  const creator = user.find((u: any) => u.id === ownerId);
+  const creatorName = creator ? creator.name : '';
 
   const onGetDetailThread = () => {
     dispatch(asyncGetThreadDetail({threadId: id}));
@@ -38,7 +51,7 @@ export default function ThreadCard({
   return (
     <Box
       style={tw.style(
-        'w-72 h-44 rounded-xl py-3 px-8 flex-col flex justify-start my-3',
+        'w-72 h-52 rounded-xl py-3 px-8 flex-col flex justify-start my-3',
         {
           'bg-threadCard': !isDarkMode,
           'bg-threadCardDark': isDarkMode,
@@ -116,6 +129,27 @@ export default function ThreadCard({
               size={25}
               color={isDarkMode ? 'white' : 'black'}
             />
+          </View>
+        </Box>
+        <Box style={tw.style('w-auto flex flex-row justify-between')}>
+          <Text
+            style={tw.style('text-dark dark:text-white my-2', {
+              'text-black': !isDarkMode,
+              'text-white': isDarkMode,
+            })}
+            numberOfLines={1}>
+            {moment(createdAt).locale(locale).fromNow()}
+          </Text>
+          <View style={tw.style('flex flex-row w-32')}>
+            <Text
+              style={tw.style('text-dark dark:text-white my-2', {
+                'text-black': !isDarkMode,
+                'text-white': isDarkMode,
+              })}
+              numberOfLines={1}>
+              {textCreatedBy}{' '}
+              <Text style={tw.style('font-bold')}>{creatorName}</Text>
+            </Text>
           </View>
         </Box>
       </VStack>
