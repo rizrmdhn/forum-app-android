@@ -1,9 +1,11 @@
-import {Pressable, Appearance} from 'react-native';
+import {Pressable, Appearance, Dimensions} from 'react-native';
 import {useDispatch} from 'react-redux';
 import React from 'react';
 import tw from '../lib/tailwind';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {openModalActionCreator} from '../states/openModal/action';
+
+const {height} = Dimensions.get('window');
 
 export default function AddNewThreadButton() {
   const isDarkMode = Appearance.getColorScheme() === 'dark';
@@ -18,10 +20,13 @@ export default function AddNewThreadButton() {
     <Pressable
       onPress={openModal}
       style={tw.style(
-        'bottom-10 right-5 w-10 h-10 flex flex-auto items-center justify-center rounded-full absolute',
+        ' right-5 w-10 h-10 flex flex-auto items-center justify-center rounded-full absolute',
         {
           'bg-light': isDarkMode,
           'bg-dark': !isDarkMode,
+        },
+        {
+          bottom: height * 0.06,
         },
       )}>
       <MaterialIcons
