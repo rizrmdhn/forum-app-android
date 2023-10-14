@@ -1,4 +1,5 @@
-import {configureStore} from '@reduxjs/toolkit';
+import {AnyAction, configureStore} from '@reduxjs/toolkit';
+import thunk, {ThunkDispatch} from 'redux-thunk';
 import authUserReducer from './authUser/reducer';
 import filterThreadByCategoryReducer from './filterThreadByCategory/reducer';
 import filterThreadByTitleReducer from './filterThreadByTitle/reducer';
@@ -33,9 +34,10 @@ const store = configureStore({
     isPreload: isPreloadReducer,
     theme: themeReducer,
   },
+  middleware: [thunk],
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = ThunkDispatch<RootState, unknown, AnyAction>;
 
 export default store;

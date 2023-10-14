@@ -19,7 +19,7 @@ import UserComment from '../components/UserComment';
 import useVoteDetailThread from '../hooks/useVoteDetailThread';
 import useVoteComment from '../hooks/useVoteComment';
 import useCreateComment from '../hooks/useCreateComment';
-import moment, {locale} from 'moment';
+import moment from 'moment';
 import 'moment/locale/id';
 import useLocale from '../hooks/useLocale';
 
@@ -30,6 +30,7 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
   const authUser = useSelectState('authUser') as IUser | null;
   const locale = useSelectState('locale') as string;
   const leaderboard = useSelectState('leaderboard') as ILeaderboard[];
+  const isLoading = useSelectState('isLoading') as boolean;
 
   const {textCreatedBy} = useLocale();
 
@@ -288,37 +289,57 @@ export default function DetailThreadPage({navigation}: {navigation: any}) {
           )}
         </View>
         <View>
-          <View>
-            <Text
-              style={tw.style(
-                'text-lg font-bold mt-5 px-5',
-                isDarkMode ? 'text-white' : 'text-black',
-              )}>
-              Komentar ({detailThread.comments.length})
-            </Text>
-          </View>
           <View style={tw.style('px-5 mt-2 h-32')}>
             <ScrollView style={tw.style('overflow-scroll')}>
-              {commentsWithIsSvg.map((comment, index) => (
-                <UserComment
-                  key={index}
-                  {...comment}
-                  handleUpVoteComment={isCommentUpVoted =>
-                    handleUpVoteComment(
-                      isCommentUpVoted,
-                      comment.id,
-                      detailThread.id,
-                    )
-                  }
-                  handleDownVoteComment={isCommentDownVoted =>
-                    handleDownVoteComment(
-                      isCommentDownVoted,
-                      comment.id,
-                      detailThread.id,
-                    )
-                  }
-                />
-              ))}
+              {isLoading ? (
+                <View style={tw.style('flex flex-row justify-center')}>
+                  <MaterialIcons
+                    name="hourglass-bottom"
+                    size={25}
+                    color={isDarkMode ? 'white' : 'black'}
+                  />
+                </View>
+              ) : commentsWithIsSvg.length > 0 ? (
+                <>
+                  <View>
+                    <Text
+                      style={tw.style(
+                        'text-lg font-bold mt-5 px-0',
+                        isDarkMode ? 'text-white' : 'text-black',
+                      )}>
+                      Komentar ({detailThread.comments.length})
+                    </Text>
+                  </View>
+                  {commentsWithIsSvg.map((comment, index) => (
+                    <UserComment
+                      key={index}
+                      {...comment}
+                      handleUpVoteComment={isCommentUpVoted =>
+                        handleUpVoteComment(
+                          isCommentUpVoted,
+                          comment.id,
+                          detailThread.id,
+                        )
+                      }
+                      handleDownVoteComment={isCommentDownVoted =>
+                        handleDownVoteComment(
+                          isCommentDownVoted,
+                          comment.id,
+                          detailThread.id,
+                        )
+                      }
+                    />
+                  ))}
+                </>
+              ) : (
+                <Text
+                  style={tw.style('mt-4 text-lg font-bold ', {
+                    'text-white': isDarkMode,
+                    'text-black': !isDarkMode,
+                  })}>
+                  Belum ada komentar
+                </Text>
+              )}
             </ScrollView>
           </View>
         </View>
